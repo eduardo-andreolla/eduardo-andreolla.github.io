@@ -1,0 +1,77 @@
+:root {
+  --fundo: #f7f6f2;
+  --cartao: #ffffff;
+  --texto: #16181d;
+  --suave: #555b66;
+  --linha: #e3e1da;
+  --destaque: #1f5eff;
+  --destaque-texto: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fundo: #111318;
+    --cartao: #1a1d24;
+    --texto: #eef0f4;
+    --suave: #a6adba;
+    --linha: #2b2f39;
+    --destaque: #5b8cff;
+    --destaque-texto: #0b0d12;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+a { color: var(--destaque); }
+.faixa { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+.topo { border-bottom: 1px solid var(--linha); background: var(--fundo); position: sticky; top: 0; z-index: 5; }
+.topo .faixa { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.marca { font-weight: 800; letter-spacing: -0.02em; color: var(--texto); text-decoration: none; font-size: 18px; }
+
+.botao {
+  display: inline-block; padding: 14px 22px; border-radius: 10px;
+  background: var(--destaque); color: var(--destaque-texto);
+  font-weight: 600; text-decoration: none; border: 2px solid var(--destaque);
+}
+.botao:hover { filter: brightness(1.08); }
+.botao-peq { padding: 8px 14px; font-size: 15px; }
+.botao-linha { background: transparent; color: var(--texto); border-color: var(--linha); }
+
+.hero { padding-top: 72px; padding-bottom: 56px; }
+.etiqueta { text-transform: uppercase; letter-spacing: 0.12em; font-size: 13px; font-weight: 600; color: var(--suave); margin: 0 0 16px; }
+h1 { font-size: clamp(32px, 6vw, 56px); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 20px; max-width: 16em; font-weight: 800; }
+h1 span { color: var(--destaque); }
+.sub { font-size: clamp(17px, 2.2vw, 20px); color: var(--suave); max-width: 38em; margin: 0 0 32px; }
+.acoes { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.bloco { padding-top: 48px; padding-bottom: 48px; border-top: 1px solid var(--linha); }
+h2 { font-size: clamp(24px, 3.5vw, 32px); letter-spacing: -0.02em; margin: 0 0 24px; }
+.grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 14px; padding: 22px; }
+.cartao h3 { margin: 0 0 8px; font-size: 19px; }
+.cartao p { margin: 0; color: var(--suave); font-size: 16px; }
+
+.passos { margin: 0; padding-left: 22px; display: grid; gap: 12px; max-width: 44em; }
+.passos li { padding-left: 6px; }
+
+.contato p { color: var(--suave); margin-top: -8px; }
+.dados { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+.dados li { display: grid; grid-template-columns: 120px 1fr; gap: 12px; }
+.dados span { color: var(--suave); font-weight: 500; }
+@media (max-width: 520px) { .dados li { grid-template-columns: 1fr; gap: 0; } }
+
+.rodape { padding-top: 32px; padding-bottom: 40px; border-top: 1px solid var(--linha); color: var(--suave); font-size: 14px; }
+.rodape p { margin: 4px 0; }
+
+.texto { max-width: 46em; padding-top: 48px; padding-bottom: 48px; }
+.texto h1 { font-size: clamp(28px, 5vw, 40px); }
+.texto h2 { font-size: 21px; margin: 32px 0 8px; }
+.texto p, .texto li { color: var(--texto); }
+.texto .data { color: var(--suave); }
