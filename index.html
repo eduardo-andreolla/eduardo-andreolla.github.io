@@ -143,15 +143,6 @@ h1 .w>span{display:inline-block}
 .mq .row span{font-family:var(--display);font-weight:700;font-stretch:95%;font-size:21px;color:var(--fg);white-space:nowrap;margin-right:14px;border:1px solid var(--line);border-radius:999px;padding:10px 22px;background:var(--surface);transition:border-color .2s,color .2s}
 .mq .row span:hover{border-color:var(--accent);color:var(--accent-2)}
 @keyframes mq{to{transform:translateX(-50%)}}
-.cli-more{display:flex;justify-content:center}
-.cli-more button{font:inherit;font-size:15px;color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:999px;padding:10px 18px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
-.cli-more button:hover{border-color:var(--fg)}
-.cli-more svg{width:16px;height:16px;transition:transform .3s}
-.cli-more button[aria-expanded="true"] svg{transform:rotate(180deg)}
-.cli-all{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px 24px;font-size:16px;color:var(--muted)}
-.cli-all li{border-bottom:1px solid var(--line);padding-block:8px}
-.js .cli-all{display:none}
-.js .cli-all.open{display:grid}
 
 /* números */
 .stats{padding-block:40px 100px}
@@ -217,7 +208,7 @@ h2 em{font-style:normal;color:var(--accent)}
 .svc-prog{width:180px;height:4px;border-radius:4px;background:var(--line);overflow:hidden}
 .svc-prog i{display:block;height:100%;background:var(--accent);transform-origin:left;transform:scaleX(0)}
 .svc-track{display:flex;gap:20px;width:max-content;will-change:transform}
-.svc{position:relative;width:min(400px,82vw);min-height:clamp(340px,calc(100vh - 400px),460px);border-radius:var(--r-lg);padding:30px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;border:1px solid var(--line);background:var(--surface);transition:border-color .3s,transform .3s}
+.svc{position:relative;width:min(400px,82vw);min-height:clamp(340px,calc(100vh - 400px),460px);border-radius:var(--r-lg);padding:30px;display:grid;grid-template-rows:auto auto 1fr auto auto;gap:14px;border:1px solid var(--line);background:var(--surface);transition:border-color .3s,transform .3s}
 .svc:hover{border-color:var(--accent);transform:translateY(-6px)}
 .svc .top{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .svc .ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent-2)}
@@ -228,6 +219,10 @@ h2 em{font-style:normal;color:var(--accent)}
 .svc ul{list-style:none;margin:0;padding:16px 0 0;border-top:1px solid var(--line);display:grid;gap:9px}
 .svc li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
 .svc li::before{content:"";flex:none;width:7px;height:7px;margin-top:8px;border-radius:50%;background:var(--accent)}
+.svc .more{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;text-decoration:none;color:var(--accent-2);justify-self:start}
+.svc .more svg{width:18px;height:18px;transition:transform .2s}
+.svc .more:hover svg{transform:translateX(4px)}
+.svc.feat .more{color:var(--ink)}
 .svc .num{position:absolute;right:26px;bottom:20px;font-family:var(--display);font-weight:850;font-stretch:125%;font-size:64px;line-height:1;color:transparent;-webkit-text-stroke:1px var(--line);pointer-events:none}
 .svc.feat{background:var(--accent);border-color:var(--accent);color:var(--ink)}
 .svc.feat p,.svc.feat .fam{color:color-mix(in srgb,var(--ink) 80%,transparent)}
@@ -333,6 +328,7 @@ footer.foot .in{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;fon
 footer.foot a{text-decoration:none}
 footer.foot a:hover{color:var(--fg)}
 footer.foot .sp{margin-left:auto}
+.fserv{display:flex;flex-wrap:wrap;gap:8px 18px;flex-basis:100%;padding-bottom:12px;border-bottom:1px solid var(--line)}
 
 .wa-float{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#25d366;color:#fff;box-shadow:0 12px 30px -8px rgba(37,211,102,.6);transform:scale(0);transition:transform .35s cubic-bezier(.2,.9,.3,1.3)}
 .wa-float.show{transform:scale(1)}
@@ -417,12 +413,8 @@ footer.foot .sp{margin-left:auto}
 
 <section class="clients" aria-labelledby="cliTitulo">
   <div class="eyebrow" id="cliTitulo">Empresas que já confiaram no meu trabalho</div>
-  <div class="mq"><div class="row" id="rowA"></div></div>
-  <div class="mq"><div class="row rev" id="rowB"></div></div>
-  <div class="cli-more"><button type="button" id="cliBtn" aria-expanded="false" aria-controls="cliList">Ver a lista completa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button></div>
-  <div class="in"><ul class="cli-all" id="cliList">
-    <li>Affetto Clínica Médica</li><li>Dr. Tiago Vendruscolo</li><li>ECOTELHAS</li><li>Nutricionista Michele Dagnese</li><li>Concrefachi</li><li>Cerâmica São Judas</li><li>Zizo Mecânica</li><li>Propaz Store</li><li>CAMED X</li><li>Criatório Ágata Azul</li><li>Montiva Espaços Móveis</li><li>Amanda Mezzomo Estética</li><li>Jake Presentes e Bazar</li><li>Somos Hyve</li><li>Cia da Vacina VCerta</li><li>Atacadão das Baterias e Lubrificantes</li><li>Zaya Gastronomia</li><li>Nova Motors</li><li>Marau Vidros</li><li>CAPALGI</li><li>Dajulio</li><li>Cristiano Campanholo</li><li>Pontual Esquadrias</li><li>Sul Redes TI</li><li>Ciane Ateliê</li><li>Psicóloga Ketrim Calcing</li><li>Centther Gaio</li><li>M.I Zê Baby Kids</li><li>LWM Pinturas</li><li>Âncora Feiras &amp; Eventos</li><li>MAVI Consultório Odontológico</li><li>SOS Rolamentos</li><li>VITRAH Empreendimentos</li><li>Vivi Espaço da Beleza</li><li>Sordi Persianas</li><li>Boliche Ametista</li><li>Marau Gás e Água</li><li>Engenheira Carolina Gusberti</li><li>Psicóloga Victória Bocussi</li>
-  </ul></div>
+  <div class="mq"><div class="row" id="rowA"><span>Affetto Clínica Médica</span><span>Dr. Tiago Vendruscolo</span><span>ECOTELHAS</span><span>Nutricionista Michele Dagnese</span><span>Concrefachi</span><span>Cerâmica São Judas</span><span>Zizo Mecânica</span><span>Propaz Store</span><span>CAMED X</span><span>Criatório Ágata Azul</span><span>Montiva Espaços Móveis</span><span>Amanda Mezzomo Estética</span><span>Jake Presentes e Bazar</span><span>Somos Hyve</span><span>Cia da Vacina VCerta</span><span>Atacadão das Baterias e Lubrificantes</span><span>Zaya Gastronomia</span><span>Nova Motors</span><span>Marau Vidros</span><span>CAPALGI</span></div></div>
+  <div class="mq"><div class="row rev" id="rowB"><span>Dajulio</span><span>Cristiano Campanholo</span><span>Pontual Esquadrias</span><span>Sul Redes TI</span><span>Ciane Ateliê</span><span>Psicóloga Ketrim Calcing</span><span>Centther Gaio</span><span>M.I Zê Baby Kids</span><span>LWM Pinturas</span><span>Âncora Feiras &amp; Eventos</span><span>MAVI Consultório Odontológico</span><span>SOS Rolamentos</span><span>VITRAH Empreendimentos</span><span>Vivi Espaço da Beleza</span><span>Sordi Persianas</span><span>Boliche Ametista</span><span>Marau Gás e Água</span><span>Engenheira Carolina Gusberti</span><span>Psicóloga Victória Bocussi</span></div></div>
 </section>
 
 <section class="stats" aria-label="Números">
@@ -489,25 +481,25 @@ footer.foot .sp{margin-left:auto}
     <div class="svc-track" id="svcTrack">
       <article class="svc feat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg></span><span class="fam">Conteúdo</span></div>
         <div><h3>Social media</h3></div><p>Instagram e Facebook com cara de empresa séria: planejamento, posts e stories que mostram o seu trabalho e puxam conversa.</p>
-        <ul><li>Calendário de posts do mês</li><li>Carrosséis, posts e stories</li><li>Legendas com chamada para o WhatsApp</li><li>Perfil e destaques organizados</li></ul><span class="num" aria-hidden="true">01</span></article>
+        <ul><li>Calendário de posts do mês</li><li>Carrosséis, posts e stories</li><li>Legendas com chamada para o WhatsApp</li><li>Perfil e destaques organizados</li></ul><a class="more" href="/social-media/">Saiba mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="num" aria-hidden="true">01</span></article>
       <article class="svc"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="fam">Conteúdo</span></div>
         <div><h3>Design</h3></div><p>A mesma cara da sua marca em todo lugar: nas redes, nos anúncios, no catálogo e no material impresso.</p>
-        <ul><li>Artes para redes e anúncios</li><li>Identidade visual</li><li>Catálogos e apresentações</li><li>Materiais para impressão</li></ul><span class="num" aria-hidden="true">02</span></article>
+        <ul><li>Artes para redes e anúncios</li><li>Identidade visual</li><li>Catálogos e apresentações</li><li>Materiais para impressão</li></ul><a class="more" href="/design-grafico/">Saiba mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="num" aria-hidden="true">02</span></article>
       <article class="svc"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="m17 10 5-3v10l-5-3"/></svg></span><span class="fam">Conteúdo</span></div>
         <div><h3>Vídeos</h3></div><p>Reels e vídeos para anúncio com corte, legenda, ritmo e capa que fazem a pessoa parar de rolar.</p>
-        <ul><li>Captação e edição</li><li>Legenda, trilha e capa</li><li>Versões para testar nos anúncios</li></ul><span class="num" aria-hidden="true">03</span></article>
+        <ul><li>Captação e edição</li><li>Legenda, trilha e capa</li><li>Versões para testar nos anúncios</li></ul><a class="more" href="/edicao-de-video/">Saiba mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="num" aria-hidden="true">03</span></article>
       <article class="svc"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></span><span class="fam">Anúncios</span></div>
         <div><h3>Meta Ads</h3></div><p>Anúncios no Instagram e no Facebook para quem está perto do seu negócio e tem o perfil do seu cliente.</p>
-        <ul><li>Estudo dos concorrentes da região</li><li>Públicos por local e interesse</li><li>Campanhas de WhatsApp, seguidores e vendas</li><li>Relatório do que foi feito e do que vem a seguir</li></ul><span class="num" aria-hidden="true">04</span></article>
+        <ul><li>Estudo dos concorrentes da região</li><li>Públicos por local e interesse</li><li>Campanhas de WhatsApp, seguidores e vendas</li><li>Relatório do que foi feito e do que vem a seguir</li></ul><a class="more" href="/trafego-pago/">Saiba mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="num" aria-hidden="true">04</span></article>
       <article class="svc"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span class="fam">Anúncios</span></div>
         <div><h3>Google Ads</h3></div><p>Sua empresa no topo do Google quando alguém pesquisa exatamente o que você vende.</p>
-        <ul><li>Palavras-chave com volume real de busca</li><li>Termos que não vendem ficam de fora</li><li>Anúncio e página pensados para o contato</li><li>Custo por contato acompanhado de perto</li></ul><span class="num" aria-hidden="true">05</span></article>
+        <ul><li>Palavras-chave com volume real de busca</li><li>Termos que não vendem ficam de fora</li><li>Anúncio e página pensados para o contato</li><li>Custo por contato acompanhado de perto</li></ul><a class="more" href="/google-ads/">Saiba mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="num" aria-hidden="true">05</span></article>
       <article class="svc"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span class="fam">Presença</span></div>
         <div><h3>Google Meu Negócio</h3></div><p>O perfil que aparece no Maps e na pesquisa local, completo e ativo, com postagens toda semana.</p>
-        <ul><li>Criação e otimização do perfil</li><li>Postagens semanais com fotos reais</li><li>Respostas às avaliações</li><li>Relatório de visualizações, ligações e rotas</li></ul><span class="num" aria-hidden="true">06</span></article>
+        <ul><li>Criação e otimização do perfil</li><li>Postagens semanais com fotos reais</li><li>Respostas às avaliações</li><li>Relatório de visualizações, ligações e rotas</li></ul><a class="more" href="/google-meu-negocio/">Saiba mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="num" aria-hidden="true">06</span></article>
       <article class="svc"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></span><span class="fam">Presença</span></div>
         <div><h3>Sites</h3></div><p>Sites e páginas de campanha rápidos, que funcionam no celular e levam ao contato. Como este que você está vendo.</p>
-        <ul><li>Site da empresa ou página de serviço</li><li>Botão de WhatsApp e formulários</li><li>Pronto para o Google encontrar</li></ul><span class="num" aria-hidden="true">07</span></article>
+        <ul><li>Site da empresa ou página de serviço</li><li>Botão de WhatsApp e formulários</li><li>Pronto para o Google encontrar</li></ul><a class="more" href="/criacao-de-sites/">Saiba mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="num" aria-hidden="true">07</span></article>
     </div>
   </div>
 </section>
@@ -625,6 +617,7 @@ footer.foot .sp{margin-left:auto}
 
 <footer class="foot">
   <div class="in">
+    <nav class="fserv" aria-label="Serviços"><a href="/social-media/">Social media</a><a href="/design-grafico/">Design gráfico</a><a href="/edicao-de-video/">Vídeos</a><a href="/trafego-pago/">Tráfego pago</a><a href="/google-ads/">Google Ads</a><a href="/google-meu-negocio/">Google Meu Negócio</a><a href="/criacao-de-sites/">Criação de sites</a></nav>
     <span>© 2026 Eduardo Andreolla</span>
     <span>R. Bento Gonçalves, 481 - Centro, Marau - RS, 99150-000 · (54) 99991-2682</span>
     <a href="https://www.instagram.com/eduardoandreolla_/" target="_blank" rel="noopener">Instagram</a>
@@ -651,21 +644,10 @@ footer.foot .sp{margin-left:auto}
     try{ localStorage.setItem('ea-tema',t); }catch(e){}
   });
 
-  /* clientes: duas faixas em sentidos opostos, com todos os nomes da lista */
-  var nomes=[].map.call(document.querySelectorAll('#cliList li'),function(li){return li.textContent;});
-  var meio=Math.ceil(nomes.length/2);
-  function faixa(el,lista){
-    var html=lista.map(function(n){return '<span>'+n.replace(/&/g,'&amp;')+'</span>';}).join('');
-    el.innerHTML=html+'<span aria-hidden="true" style="display:contents">'+html+'</span>';
-  }
-  faixa(document.getElementById('rowA'),nomes.slice(0,meio));
-  faixa(document.getElementById('rowB'),nomes.slice(meio));
-  var cliBtn=document.getElementById('cliBtn'), cliList=document.getElementById('cliList');
-  cliBtn.addEventListener('click',function(){
-    var open=cliList.classList.toggle('open');
-    cliBtn.setAttribute('aria-expanded',open);
-    cliBtn.firstChild.nodeValue=open?'Fechar a lista ':'Ver a lista completa ';
-    if(window.ScrollTrigger){ ScrollTrigger.refresh(); }
+  /* clientes: duplica as duas faixas para correrem sem emenda */
+  ['rowA','rowB'].forEach(function(id){
+    var row=document.getElementById(id), w=document.createElement('span');
+    w.setAttribute('aria-hidden','true'); w.style.display='contents'; w.innerHTML=row.innerHTML; row.appendChild(w);
   });
 
   /* avaliações: duplica as faixas para correrem sem emenda */
