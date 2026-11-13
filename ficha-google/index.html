@@ -271,15 +271,27 @@ const STEPS = [
     input: { type: 'cnpj' },
     reset: a => { (a._pre || []).forEach(k => delete a[k]); delete a._pre; delete a._cnpj; delete a.cnpj_ok; delete a.end_cnpj_ok; },
     after: async (v, a) => {
-      const d = await getJSON('https://brasilapi.com.br/api/cnpj/v1/' + v.replace(/[^0-9A-Z]/gi, ''));
-      if (!d || !d.razao_social) { await say({ hint: 'Não consegui consultar a Receita agora. Sem problema, sigo com as perguntas.' }); return; }
+      const num = v.replace(/[^0-9A-Z]/gi, '');
+      let c = null;
+      const d = await getJSON('https://brasilapi.com.br/api/cnpj/v1/' + num);
+      if (d && d.razao_social) c = {
+        razao: d.razao_social, fantasia: d.nome_fantasia, abertura: d.data_inicio_atividade, situacao: d.descricao_situacao_cadastral,
+        atividade: d.cnae_fiscal_descricao, rua: [d.descricao_tipo_de_logradouro, d.logradouro].filter(Boolean).join(' '),
+        numero: d.numero, complemento: d.complemento, bairro: d.bairro, cidade: d.municipio, uf: d.uf, cep: d.cep };
+      if (!c) { // reserva: CNPJ.ws (pública, até 3 consultas por minuto)
+        const w = await getJSON('https://publica.cnpj.ws/cnpj/' + num);
+        const e = w && w.estabelecimento;
+        if (w && w.razao_social && e) c = {
+          razao: w.razao_social, fantasia: e.nome_fantasia, abertura: e.data_inicio_atividade, situacao: e.situacao_cadastral,
+          atividade: (e.atividade_principal || {}).descricao, rua: [e.tipo_logradouro, e.logradouro].filter(Boolean).join(' '),
+          numero: e.numero, complemento: e.complemento, bairro: e.bairro, cidade: (e.cidade || {}).nome, uf: (e.estado || {}).sigla, cep: e.cep };
+      }
+      if (!c) { await say({ hint: 'Não consegui consultar a Receita agora. Sem problema, sigo com as perguntas.' }); return; }
       a._cnpj = {
-        razao: titleCase(d.razao_social), fantasia: d.nome_fantasia ? titleCase(d.nome_fantasia) : '',
-        abertura: d.data_inicio_atividade || '', situacao: d.descricao_situacao_cadastral || '',
-        atividade: d.cnae_fiscal_descricao || '',
-        rua: titleCase([d.descricao_tipo_de_logradouro, d.logradouro].filter(Boolean).join(' ')),
-        numero: d.numero || '', complemento: titleCase(d.complemento || ''), bairro: titleCase(d.bairro || ''),
-        cidade: titleCase(d.municipio || ''), uf: d.uf || '', cep: d.cep ? mask.cep(d.cep) : ''
+        razao: titleCase(c.razao), fantasia: c.fantasia ? titleCase(c.fantasia) : '',
+        abertura: c.abertura || '', situacao: c.situacao || '', atividade: c.atividade || '',
+        rua: titleCase(c.rua || ''), numero: c.numero || '', complemento: titleCase(String(c.complemento || '').replace(/\s{2,}/g, ' ')),
+        bairro: titleCase(c.bairro || ''), cidade: titleCase(c.cidade || ''), uf: c.uf || '', cep: c.cep ? mask.cep(c.cep) : ''
       };
     } },
 
