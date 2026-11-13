@@ -132,7 +132,7 @@ footer:empty{display:none}
 /* ============ CONFIGURAÇÃO ============ */
 const CONFIG = {
   // URL do App da Web do Google Apps Script (ver apps-script.gs). Vazio = respostas vão pelo WhatsApp.
-  ENDPOINT: '',
+  ENDPOINT: 'https://script.google.com/macros/s/AKfycbzdbCXeRlmy0E4LaHA9fECWuLFLb8Za63nxmUbL0aNzORgmBMaIXt_rzVagfoSzaQ1bHg/exec',
   WHATSAPP: '5554999912682',
   STORAGE: 'ficha-gmn-v1'
 };
@@ -699,8 +699,12 @@ async function submit() {
     respostas: Object.fromEntries(Object.entries(A).filter(([k]) => !k.startsWith('_') || k === '_cnpj')), linhas: linhas(), markdown: fichaMarkdown() };
   let ok = false;
   if (CONFIG.ENDPOINT) {
-    try { await fetch(CONFIG.ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) }); ok = true; }
-    catch (e) { ok = false; }
+    await say({ hint: 'Enviando suas respostas...' });
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 20000);
+    try {
+      const r = await fetch(CONFIG.ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), signal: ctl.signal });
+      const j = await r.json(); ok = !!(j && j.ok);
+    } catch (e) { ok = false; } finally { clearTimeout(t); }
   }
   setStage(6);
   document.getElementById('stage').textContent = 'Concluído';
