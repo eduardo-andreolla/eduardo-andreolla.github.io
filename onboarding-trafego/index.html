@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tráfego pago | Eduardo Andreolla</title>
+<meta name="description" content="Responda algumas perguntas para eu entender o seu negócio e planejar os seus anúncios.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1a73e8">
+<link rel="icon" href="../links/img/favicon-64.png">
+<meta property="og:title" content="Vamos começar os seus anúncios">
+<meta property="og:description" content="Responda algumas perguntas para eu entender o seu negócio e planejar os seus anúncios.">
+<meta property="og:image" content="https://eduardoandreolla.com.br/links/img/eduardo.jpg">
+<meta property="og:url" content="https://eduardoandreolla.com.br/onboarding-trafego/">
+<link rel="stylesheet" href="../formulario/motor.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="who">
+      <div class="id"><div class="avatar" aria-hidden="true"></div><div><b>Eduardo Andreolla</b><small>Começo do nosso trabalho de tráfego pago</small></div></div>
+      <a class="help" id="ajuda" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg><span>Dúvida?</span></a>
+    </div>
+    <div class="progress" aria-hidden="true">
+      <div class="bars"></div>
+      <span class="stage" id="stage">Início</span>
+    </div>
+  </header>
+  <main id="chat" aria-live="polite"></main>
+  <footer id="composer"></footer>
+</div>
+<script src="../formulario/motor.js"></script>
+<script>
+const STAGES = ['Você', 'Empresa', 'Anúncios', 'Público', 'Marca e acessos', 'Arquivos e contrato', 'Revisão'];
+const NA_REUNIAO = 'Prefiro falar na reunião';
+const jaAnunciou = a => a.ja_anuncia && a.ja_anuncia !== 'Nunca anunciei';
+
+const passos = [
+  { id: 'intro', stage: 0, nokey: true,
+    say: () => ['Olá, seja bem-vindo! 👋', 'Este formulário é o começo do nosso trabalho de **tráfego pago**. Com ele eu entendo o seu negócio, o seu cliente e o que você espera dos anúncios, antes da nossa reunião. Leva uns 12 minutos.', { hint: 'Responda do seu jeito, sem medo de errar. Se fechar a página, continua de onde parou, e no final você confere tudo antes de enviar.' }],
+    input: { type: 'choice', options: ['Começar agora! 🚀'] } },
+
+  ...P.contato(0, { email: true }),
+  ...P.cnpj(0),
+  P.nomeEmpresa(0),
+
+  { id: 'responsaveis', stage: 0, label: 'Outras pessoas no projeto',
+    say: () => ['Além de você, mais alguém vai **acompanhar o projeto** (sócio, gerente, quem atende os clientes)?', { hint: 'Se sim, escreva o nome e a função. Eu coloco no nosso grupo do WhatsApp.' }],
+    input: { type: 'text', placeholder: 'Ex.: Ana, gerente; Pedro, vendas', optional: 'Só eu' } },
+
+  { id: 'm_empresa', stage: 1, msg: true, say: () => ['Agora me conta sobre a **empresa**! 💼'] },
+
+  { id: 'segmento', stage: 1, label: 'O que a empresa faz',
+    say: () => ['Em poucas palavras, **o que a empresa faz**?', { hint: 'Ex.: clínica de estética, loja de móveis planejados, oficina mecânica.' }],
+    input: { type: 'text', placeholder: 'O que vocês fazem' } },
+
+  { id: 'cidade', stage: 1, label: 'Cidade', say: () => ['Em que **cidade** fica a empresa?'],
+    input: { type: 'text', placeholder: 'Cidade/UF', chips: a => a._cnpj && a._cnpj.cidade ? [{ label: `${a._cnpj.cidade}/${a._cnpj.uf}`, value: `${a._cnpj.cidade}/${a._cnpj.uf}` }] : [] } },
+
+  { id: 'instagram', stage: 1, label: 'Instagram',
+    say: () => ['Qual é o **Instagram da empresa**?'],
+    input: { type: 'instagram', placeholder: '@usuario', chips: () => [{ label: 'Não tem Instagram', value: 'Não tem' }] } },
+
+  { id: 'site', stage: 1, label: 'Site',
+    say: () => ['A empresa tem **site**? Se tiver, digite o endereço.'],
+    input: { type: 'site', placeholder: 'www.suaempresa.com.br', chips: () => [{ label: 'Não tem site', value: 'Não tem' }] } },
+
+  { id: 'historia', stage: 1, label: 'Como o negócio nasceu',
+    say: () => ['Me conta **como o negócio nasceu** e há quanto tempo vocês estão no mercado.'],
+    input: { type: 'textarea', placeholder: 'A história da empresa...', min: 20 } },
+
+  { id: 'equipe', stage: 1, label: 'Tamanho da equipe',
+    say: () => ['Qual é o **tamanho da equipe**?'], input: { type: 'choice', options: ['Só eu', '2 a 5 pessoas', '6 a 15 pessoas', 'Mais de 15 pessoas'] } },
+
+  { id: 'momento', stage: 1, label: 'Momento da empresa',
+    say: () => ['Em que **momento** a empresa está hoje?'],
+    input: { type: 'choice', options: ['Começando agora', 'Crescendo', 'Estável, quero crescer', 'Passando por uma fase difícil'] } },
+
+  { id: 'meses_fortes', stage: 1, label: 'Melhores meses de venda',
+    say: () => ['Quais são os **melhores meses de venda**? E os mais fracos?'],
+    input: { type: 'text', placeholder: 'Ex.: dezembro e maio são fortes; fevereiro é fraco', optional: 'Não tem diferença' } },
+
+  { id: 'ticket', stage: 1, label: 'Ticket médio',
+    say: () => ['Quanto o cliente gasta, em média, **em cada compra** (ticket médio)?', { hint: 'Pode ser aproximado. É para calcular quanto vale a pena investir para trazer cada cliente.' }],
+    input: { type: 'money', placeholder: 'R$ 0,00', optional: NA_REUNIAO } },
+
+  { id: 'faturamento', stage: 1, label: 'Faturamento mensal',
+    say: () => ['Mais ou menos quanto a empresa **fatura por mês**?', { hint: 'Fica só entre a gente. Se preferir, conversamos na reunião.' }],
+    input: { type: 'choice', options: ['Até R$ 20 mil', 'R$ 20 a 50 mil', 'R$ 50 a 100 mil', 'R$ 100 a 300 mil', 'Mais de R$ 300 mil', NA_REUNIAO] } },
+
+  { id: 'margem', stage: 1, label: 'Margem de lucro',
+    say: () => ['E a **margem de lucro** média, mais ou menos?'],
+    input: { type: 'choice', options: ['Até 20%', '20% a 40%', 'Mais de 40%', 'Não sei', NA_REUNIAO] } },
+
+  { id: 'peso_redes', stage: 1, label: 'Peso das redes sociais no faturamento',
+    say: () => ['Hoje, quanto das vendas **vem da internet** (Instagram, WhatsApp, Google)?'],
+    input: { type: 'choice', options: ['Quase nada', 'Até 30%', '30% a 50%', 'Mais da metade', 'Não sei'] } },
+
+  { id: 'm_anuncios', stage: 2, msg: true, say: () => ['Agora sobre os **anúncios**! 📣'] },
+
+  { id: 'objetivo', stage: 2, label: 'Principal objetivo',
+    say: () => ['Qual é o **principal objetivo** dos anúncios?'],
+    input: { type: 'choice', options: ['Mais conversas no WhatsApp', 'Mais clientes na loja ou no consultório', 'Vendas no site', 'Pedidos de orçamento', 'Fortalecer a marca'] } },
+
+  { id: 'foco', stage: 2, label: 'Produtos e serviços para anunciar',
+    say: () => ['Quais **produtos ou serviços** você quer anunciar primeiro?', { hint: 'Os que dão mais lucro ou que você mais quer vender. Se tiver preço, coloque.' }],
+    input: { type: 'textarea', placeholder: 'Um por linha', min: 3 } },
+
+  { id: 'condicoes', stage: 2, label: 'Condições e promoções',
+    say: () => ['Tem alguma **condição especial** para usar nos anúncios? Parcelamento, desconto, brinde, frete grátis...'],
+    input: { type: 'text', placeholder: 'Ex.: 10x sem juros; avaliação grátis', optional: 'Nenhuma por enquanto' } },
+
+  { id: 'regiao', stage: 2, label: 'Região dos anúncios',
+    say: () => ['Os anúncios devem aparecer **onde**?', { hint: 'Só na sua cidade, num raio de quilômetros, em cidades vizinhas, no estado ou no Brasil todo.' }],
+    input: { type: 'text', placeholder: 'Ex.: Marau e cidades a até 40 km' } },
+
+  { id: 'ja_anuncia', stage: 2, label: 'Já anuncia na internet',
+    say: () => ['Você **já anuncia** ou já anunciou na internet?'],
+    input: { type: 'choice', options: ['Sim, com outra pessoa ou agência', 'Sim, eu mesmo impulsiono', 'Já anunciei, mas parei', 'Nunca anunciei'] } },
+
+  { id: 'historico', stage: 2, label: 'Como foram os anúncios', when: jaAnunciou,
+    say: () => ['Como foi? **Quanto investia**, o que deu certo e o que não deu?'],
+    input: { type: 'textarea', placeholder: 'Conte como foi a experiência', min: 10 } },
+
+  { id: 'verba', stage: 2, label: 'Investimento mensal em anúncios',
+    say: () => ['Quanto você pensa em **investir por mês** nos anúncios (o valor que vai para o Meta ou o Google)?', { hint: 'É separado do valor do meu trabalho.' }],
+    input: { type: 'choice', options: ['Até R$ 500', 'R$ 500 a R$ 1.000', 'R$ 1.000 a R$ 3.000', 'R$ 3.000 a R$ 10.000', 'Mais de R$ 10.000', 'Quero a sua indicação'] } },
+
+  { id: 'pagamento_anuncios', stage: 2, label: 'Pagamento dos anúncios',
+    say: () => ['Como os anúncios serão **pagos**?', { hint: 'O ideal é um cartão de crédito da empresa cadastrado direto na conta de anúncios.' }],
+    input: { type: 'choice', options: ['Cartão de crédito da empresa', 'Pix ou boleto antecipado', 'Ainda não sei'] } },
+
+  { id: 'whats_leads', stage: 2, label: 'WhatsApp que recebe os contatos',
+    say: () => ['Qual **WhatsApp** vai receber os contatos dos anúncios?'],
+    input: { type: 'phone', chips: a => a.whats ? [{ label: 'É o meu', value: a.whats }] : [] } },
+
+  { id: 'atendimento', stage: 2, label: 'Quem atende os contatos',
+    say: () => ['**Quem responde** esses contatos, e em quanto tempo mais ou menos?', { hint: 'Resposta rápida faz muita diferença no resultado dos anúncios.' }],
+    input: { type: 'text', placeholder: 'Ex.: eu mesma, na hora; a recepção em até 1 hora' } },
+
+  { id: 'producao', stage: 2, label: 'Quem produz o conteúdo',
+    say: () => ['Quem **produz as fotos, vídeos e artes** hoje?', { hint: 'Pode marcar mais de uma.' }],
+    input: { type: 'multi', options: ['Eu mesmo', 'Alguém da equipe', 'Designer', 'Editor de vídeo', 'Social media ou agência'], none: 'Ninguém ainda' } },
+
+  { id: 'sucesso_1m', stage: 2, label: 'O que faria valer a pena (1º mês)',
+    say: () => ['O que precisa acontecer no **primeiro mês** para você dizer "valeu a pena"?'],
+    input: { type: 'textarea', placeholder: 'Ex.: 30 conversas no WhatsApp e 5 vendas' } },
+
+  { id: 'sucesso_6m', stage: 2, label: 'Onde quer chegar em 6 meses',
+    say: () => ['E daqui a **6 meses**, aonde você quer que a empresa chegue?'],
+    input: { type: 'textarea', placeholder: 'Pode ser em vendas, clientes, faturamento...', optional: 'Vamos ver no caminho' } },
+
+  { id: 'm_publico', stage: 3, msg: true, say: () => ['Agora a parte mais importante: o seu **cliente**. 🎯'] },
+
+  { id: 'cliente_ideal', stage: 3, label: 'Cliente ideal',
+    say: () => ['Me descreve o seu **melhor cliente**: idade, se é homem ou mulher, profissão, onde mora, renda mais ou menos.', { hint: 'Pense naquele cliente que você queria ter mais 100 iguais.' }],
+    input: { type: 'textarea', placeholder: 'Ex.: mulheres de 30 a 50 anos, que trabalham fora, moram em Marau...', min: 20 } },
+
+  { id: 'mau_cliente', stage: 3, label: 'Quem não é o cliente certo',
+    say: () => ['E quem **não é** o cliente certo, ou costuma dar problema?', { hint: 'Ajuda a não gastar com o público errado.' }],
+    input: { type: 'textarea', placeholder: 'Ex.: quem só quer o mais barato', optional: 'Não sei dizer' } },
+
+  { id: 'dores', stage: 3, label: 'Problemas que levam o cliente a procurar',
+    say: () => ['Que **problema ou desejo** faz o cliente procurar você?'],
+    input: { type: 'textarea', placeholder: 'O que ele sente ou quer quando procura vocês', min: 10 } },
+
+  { id: 'duvidas', stage: 3, label: 'Dúvidas e objeções',
+    say: () => ['Quais **dúvidas ou desculpas** aparecem antes de fechar?', { hint: 'Ex.: "está caro", "vou pensar", "funciona mesmo?", "vocês entregam aqui?"' }],
+    input: { type: 'textarea', placeholder: 'As que você mais escuta' } },
+
+  { id: 'pesquisas', stage: 3, label: 'O que o cliente pesquisa no Google',
+    say: () => ['O que você acha que o cliente **digita no Google** quando precisa de vocês?'],
+    input: { type: 'text', placeholder: 'Ex.: oficina mecânica em Marau', optional: 'Não sei' } },
+
+  { id: 'concorrentes', stage: 3, label: 'Concorrentes',
+    say: () => ['Quem são os seus **principais concorrentes**?', { hint: 'Se souber o Instagram deles, melhor ainda.' }],
+    input: { type: 'textarea', placeholder: 'Nomes ou @ dos concorrentes', optional: 'Não sei' } },
+
+  { id: 'diferencial', stage: 3, label: 'Diferencial',
+    say: () => ['Por que o cliente deveria escolher **você** e não o concorrente?'],
+    input: { type: 'textarea', placeholder: 'O que vocês têm que os outros não têm', min: 10 } },
+
+  { id: 'm_marca', stage: 4, msg: true, say: () => ['Quase lá! Agora sobre a **marca** e os **acessos**. 🎨'] },
+
+  { id: 'tom', stage: 4, label: 'Jeito de falar da marca',
+    say: () => ['Como a marca deve **falar** com o cliente?', { hint: 'Pode marcar mais de uma.' }],
+    input: { type: 'multi', options: ['Acolhedora', 'Especialista e técnica', 'Leve e divertida', 'Sofisticada', 'Direta e objetiva', 'Simples, do dia a dia'] } },
+
+  { id: 'quem_aparece', stage: 4, label: 'Quem aparece nos anúncios',
+    say: () => ['Quem pode **aparecer** nos vídeos e fotos dos anúncios?', { hint: 'Pode marcar mais de uma.' }],
+    input: { type: 'multi', options: ['Eu', 'A equipe', 'Clientes (com autorização)'], none: 'Ninguém, só produtos e ambiente' } },
+
+  { id: 'regras_setor', stage: 4, label: 'Regras do setor',
+    say: () => ['A sua área tem **regras de publicidade** de algum conselho?', { hint: 'Ex.: CFM (médicos), CRO (dentistas), CRN (nutricionistas), OAB (advogados).' }],
+    input: { type: 'choice', options: ['Sim', 'Não', 'Não sei'] } },
+
+  { id: 'regras_quais', stage: 4, label: 'Conselho e registro', when: a => a.regras_setor === 'Sim',
+    say: () => ['Qual é o **conselho e o número do registro** (CRM, RQE, CRO...)?', { hint: 'Vai nos anúncios, como as regras pedem.' }],
+    input: { type: 'text', placeholder: 'Ex.: CRM-RS 12345, RQE 6789' } },
+
+  { id: 'referencias', stage: 4, label: 'Perfis de referência',
+    say: () => ['Tem algum **perfil ou anúncio** que você admira e gostaria de ter algo parecido?'],
+    input: { type: 'text', placeholder: '@ ou links', optional: 'Não tenho' } },
+
+  { id: 'acessos', stage: 4, label: 'O que já existe',
+    say: () => ['Destes, o que a empresa **já tem**?', { hint: 'Pode marcar mais de uma. Depois eu te mando um passo a passo para liberar o meu acesso, sem precisar de senha.' }],
+    input: { type: 'multi', options: ['Página no Facebook', 'Instagram profissional', 'Gerenciador de Negócios (Meta)', 'Conta de anúncios no Meta', 'Conta no Google Ads', 'Google Analytics ou Tag Manager no site'], none: 'Nenhum ou não sei' } },
+
+  ...P.arquivos(5, { fotosTexto: 'E **fotos e vídeos** que já tenham: produtos, serviços, ambiente, equipe, clientes satisfeitos. 📸 Eles viram material para os primeiros anúncios.' }),
+  ...P.contrato(5),
+  P.revisao(6)
+];
+
+iniciar({
+  tipo: 'trafego',
+  documento: 'Onboarding Tráfego Pago',
+  storage: 'onboarding-trafego-v1',
+  stages: STAGES,
+  steps: passos,
+  privacidade: 'Suas respostas ficam só comigo e servem só para planejar os seus anúncios e o contrato.',
+  fim: () => ['Recebi tudo. Agora eu estudo o seu negócio e preparo a **estratégia dos anúncios**. Na sequência te chamo para a nossa reunião e para liberarmos os acessos.']
+});
+</script>
+</body>
+</html>

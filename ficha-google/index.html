@@ -12,232 +12,36 @@
 <meta property="og:description" content="Responda algumas perguntas para eu criar e otimizar a ficha da sua empresa no Google Meu Negócio.">
 <meta property="og:image" content="https://eduardoandreolla.com.br/links/img/eduardo.jpg">
 <meta property="og:url" content="https://eduardoandreolla.com.br/ficha-google/">
-<style>
-:root{
-  --bg:#eef1f5; --surface:#ffffff; --surface-2:#f6f8fb; --text:#1d2433; --muted:#667085;
-  --line:#e2e6ee; --accent:#1a73e8; --accent-ink:#ffffff; --accent-soft:#e8f0fe;
-  --ok:#188038; --err:#c5221f; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08);
-  --radius:18px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0f1218; --surface:#1a1f29; --surface-2:#141922; --text:#e7eaf0; --muted:#98a2b3;
-    --line:#2a3140; --accent:#8ab4f8; --accent-ink:#0b1a33; --accent-soft:#1e2a40;
-    --ok:#81c995; --err:#f28b82; --shadow:none;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0f1218; --surface:#1a1f29; --surface-2:#141922; --text:#e7eaf0; --muted:#98a2b3;
-  --line:#2a3140; --accent:#8ab4f8; --accent-ink:#0b1a33; --accent-soft:#1e2a40;
-  --ok:#81c995; --err:#f28b82; --shadow:none;
-}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
-.app{max-width:680px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;background:var(--bg)}
-header{flex:none;background:var(--surface);border-bottom:1px solid var(--line);padding:12px 16px 10px;position:sticky;top:0;z-index:2}
-.who{display:flex;align-items:center;gap:12px}
-.avatar,.mini{background:var(--accent) url(../img/eduardo.webp) center/cover no-repeat}
-.avatar{width:40px;height:40px;border-radius:50%;color:var(--accent-ink);display:grid;place-items:center;font-weight:700;letter-spacing:.5px;flex:none}
-.who b{display:block;font-size:15px}
-.who small{color:var(--muted);font-size:13px}
-.progress{margin-top:10px;display:flex;align-items:center;gap:10px}
-.bars{flex:1;display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
-.bars i{height:4px;border-radius:4px;background:var(--line);transition:background .3s}
-.bars i.on{background:var(--accent)}
-.stage{font-size:12px;color:var(--muted);white-space:nowrap}
-main{flex:1;overflow-y:auto;padding:16px 16px 8px;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth}
-.row{display:flex;gap:8px;align-items:flex-end}
-.row.me{justify-content:flex-end}
-.mini{width:28px;height:28px;border-radius:50%;color:transparent;font-size:11px;font-weight:700;display:grid;place-items:center;flex:none;visibility:hidden}
-.row.first .mini{visibility:visible}
-.bubble{max-width:82%;padding:9px 13px;border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow);word-wrap:break-word;overflow-wrap:anywhere;animation:pop .18s ease-out}
-.row.bot .bubble{border-bottom-left-radius:6px}
-.row.me .bubble{background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:6px}
-.bubble.hint{background:transparent;box-shadow:none;color:var(--muted);font-size:14px;font-style:italic;padding:2px 13px}
-.bubble.card{background:var(--surface-2);border:1px solid var(--line);font-size:15px}
-.bubble.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
-.bubble.card dt{color:var(--muted)}
-.bubble.card dd{margin:0}
-.typing{display:inline-flex;gap:4px;padding:13px 14px}
-.typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);opacity:.5;animation:blink 1s infinite}
-.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
-@keyframes blink{50%{opacity:1;transform:translateY(-2px)}}
-@keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.choices{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin:6px 0 4px 36px}
-.choices button,.chip{font:inherit;font-size:15px;border:1.5px solid var(--accent);background:var(--surface);color:var(--accent);padding:9px 15px;border-radius:999px;cursor:pointer;text-align:left}
-.choices button:hover,.chip:hover{background:var(--accent-soft)}
-.choices button.sel{background:var(--accent);color:var(--accent-ink)}
-.choices.multi{justify-content:flex-start}
-.choices .go{background:var(--accent);color:var(--accent-ink);font-weight:600}
-.choices button:disabled{opacity:.45;cursor:default}
-footer{flex:none;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
-footer:empty{display:none}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.chip{font-size:14px;padding:6px 12px}
-.compose{display:flex;gap:8px;align-items:flex-end}
-.compose input,.compose textarea,.compose select{flex:1;min-width:0;font:inherit;color:var(--text);background:var(--surface-2);border:1.5px solid var(--line);border-radius:14px;padding:11px 14px;outline:none}
-.compose textarea{resize:none;min-height:48px;max-height:180px}
-.compose input:focus,.compose textarea:focus,.compose select:focus{border-color:var(--accent)}
-.send{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;display:grid;place-items:center}
-.send svg{width:20px;height:20px}
-.err{color:var(--err);font-size:13px;margin:6px 4px 0;min-height:0}
-.count{color:var(--muted);font-size:12px;text-align:right;margin:4px 6px 0}
-/* horários */
-.hours{width:100%;max-width:520px;margin:6px 0 4px 36px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:var(--shadow)}
-.hours .presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.day{display:grid;grid-template-columns:96px 1fr;gap:8px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
-.day label.tog{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding-top:6px;cursor:pointer}
-.day input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
-.periods{display:flex;flex-direction:column;gap:6px}
-.per{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.per input[type=time]{font:inherit;font-size:15px;color:var(--text);background:var(--surface-2);border:1.5px solid var(--line);border-radius:10px;padding:6px 8px}
-.per .x,.addp{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);cursor:pointer;padding:4px}
-.closed{color:var(--muted);padding-top:6px;font-size:15px}
-.hours .foot{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-top:10px}
-.btn{font:inherit;font-weight:600;border:0;border-radius:999px;padding:10px 18px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
-.btn.ghost{background:none;color:var(--accent);font-weight:500;padding:10px 6px}
-/* revisão */
-.review{margin:6px 0 4px 36px;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
-.review h3{margin:0;padding:10px 14px;font-size:13px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);background:var(--surface-2);border-top:1px solid var(--line)}
-.review h3:first-child{border-top:0}
-.ri{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:9px 14px;border-top:1px solid var(--line)}
-.ri span{font-size:13px;color:var(--muted)}
-.ri p{margin:0;grid-column:1;white-space:pre-line;overflow-wrap:anywhere}
-.ri button{grid-row:1/3;grid-column:2;align-self:center;font:inherit;font-size:14px;border:0;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:6px 12px;cursor:pointer}
-.final{margin:10px 0 4px 36px;display:flex;flex-direction:column;gap:8px;align-items:stretch;max-width:420px}
-.final a,.final button{text-align:center;text-decoration:none}
-.wa{background:#25d366!important;color:#06361a!important}
-.small{font-size:12px;color:var(--muted);text-align:center;margin:8px 0}
-@media (prefers-reduced-motion: reduce){*{animation:none!important;scroll-behavior:auto!important}}
-@media (max-width:420px){.bubble{max-width:88%}.choices,.hours,.review,.final{margin-left:0}.day{grid-template-columns:84px 1fr}}
-</style>
+<link rel="stylesheet" href="../formulario/motor.css">
 </head>
 <body>
 <div class="app">
   <header>
     <div class="who">
-      <div class="avatar" aria-hidden="true"></div>
-      <div><b>Eduardo Andreolla</b><small>Ficha da sua empresa no Google</small></div>
+      <div class="id"><div class="avatar" aria-hidden="true"></div><div><b>Eduardo Andreolla</b><small>Ficha da sua empresa no Google</small></div></div>
+      <a class="help" id="ajuda" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg><span>Dúvida?</span></a>
     </div>
     <div class="progress" aria-hidden="true">
-      <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="bars"></div>
       <span class="stage" id="stage">Início</span>
     </div>
   </header>
   <main id="chat" aria-live="polite"></main>
   <footer id="composer"></footer>
 </div>
+<script src="../formulario/motor.js"></script>
 <script>
-/* ============ CONFIGURAÇÃO ============ */
-const CONFIG = {
-  // URL do App da Web do Google Apps Script (ver apps-script.gs). Vazio = respostas vão pelo WhatsApp.
-  ENDPOINT: 'https://script.google.com/macros/s/AKfycbzdbCXeRlmy0E4LaHA9fECWuLFLb8Za63nxmUbL0aNzORgmBMaIXt_rzVagfoSzaQ1bHg/exec',
-  WHATSAPP: '5554999912682',
-  STORAGE: 'ficha-gmn-v1'
-};
-
-/* ============ UTILIDADES ============ */
-const $chat = document.getElementById('chat');
-const $comp = document.getElementById('composer');
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const rich = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-const digits = s => String(s || '').replace(/\D/g, '');
-const firstName = n => (n || '').trim().split(/\s+/)[0] || '';
-const titleCase = s => String(s || '').toLowerCase().replace(/(^|[\s\-\/(])([a-zà-ú])/g, (m, a, b) => a + b.toUpperCase())
-  .replace(/\b(De|Da|Do|Das|Dos|E|Em)\b/g, w => w.toLowerCase()).replace(/\b(Sa|Ltda|Me|Epp|Eireli|Ii|Iii|Iv)\b/g, w => w.toUpperCase()).replace(/^./, c => c.toUpperCase());
-const fmtDate = iso => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ''); return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || ''); };
-const today = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
-
-const mask = {
-  cpf: v => { const d = digits(v).slice(0, 11); return d.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); },
-  cnpj: v => { const c = String(v).toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 14), parts = [2, 3, 3, 4, 2], sep = ['.', '.', '/', '-'];
-    let out = '', i = 0; for (let k = 0; k < parts.length && i < c.length; k++) { if (k) out += sep[k - 1]; out += c.slice(i, i + parts[k]); i += parts[k]; } return out; },
-  phone: v => { const d = digits(v).replace(/^55(?=\d{10,11}$)/, '').slice(0, 11);
-    if (d.length <= 2) return d.length ? '(' + d : d;
-    if (d.length <= 6) return `(${d.slice(0,2)}) ${d.slice(2)}`;
-    if (d.length <= 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
-    return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`; },
-  cep: v => { const d = digits(v).slice(0, 8); return d.length > 5 ? d.slice(0,5) + '-' + d.slice(5) : d; }
-};
-function cpfValido(c) {
-  c = digits(c); if (c.length !== 11 || /^(\d)\1+$/.test(c)) return false;
-  for (let t = 9; t < 11; t++) { let s = 0; for (let i = 0; i < t; i++) s += +c[i] * (t + 1 - i); if (+c[t] !== ((10 * s) % 11) % 10) return false; }
-  return true;
-}
-function cnpjValido(c) { // aceita o CNPJ alfanumérico (Receita, a partir de 2026)
-  c = String(c).toUpperCase().replace(/[^0-9A-Z]/g, '');
-  if (!/^[0-9A-Z]{12}\d{2}$/.test(c) || /^(.)\1+$/.test(c)) return false;
-  const dv = b => { let w = 2, s = 0; for (let i = b.length - 1; i >= 0; i--) { s += (b.charCodeAt(i) - 48) * w; w = w === 9 ? 2 : w + 1; } const r = s % 11; return r < 2 ? 0 : 11 - r; };
-  const d1 = dv(c.slice(0, 12)), d2 = dv(c.slice(0, 12) + d1);
-  return c.slice(12) === `${d1}${d2}`;
-}
-async function getJSON(url, ms = 8000) {
-  const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms);
-  try { const r = await fetch(url, { signal: ctl.signal }); if (!r.ok) return null; return await r.json(); }
-  catch (e) { return null; } finally { clearTimeout(t); }
-}
-const UFS = {AC:'Acre',AL:'Alagoas',AP:'Amapá',AM:'Amazonas',BA:'Bahia',CE:'Ceará',DF:'Distrito Federal',ES:'Espírito Santo',GO:'Goiás',MA:'Maranhão',MT:'Mato Grosso',MS:'Mato Grosso do Sul',MG:'Minas Gerais',PA:'Pará',PB:'Paraíba',PR:'Paraná',PE:'Pernambuco',PI:'Piauí',RJ:'Rio de Janeiro',RN:'Rio Grande do Norte',RS:'Rio Grande do Sul',RO:'Rondônia',RR:'Roraima',SC:'Santa Catarina',SP:'São Paulo',SE:'Sergipe',TO:'Tocantins'};
 const CATEGORIAS = ['Restaurante','Pizzaria','Lanchonete','Hamburgueria','Cafeteria','Padaria','Confeitaria','Sorveteria','Bar','Mercado','Açougue','Loja de roupas','Loja de calçados','Loja de presentes','Loja de móveis','Loja de materiais de construção','Ótica','Farmácia','Pet shop','Clínica veterinária','Academia','Estúdio de pilates','Salão de beleza','Barbearia','Clínica de estética','Centro de estética','Esteticista','Manicure','Clínica médica','Médico','Ginecologista','Cardiologista','Dermatologista','Dentista','Clínica odontológica','Nutricionista','Psicólogo','Fisioterapeuta','Advogado','Escritório de contabilidade','Imobiliária','Engenheiro civil','Arquiteto','Construtora','Oficina mecânica','Auto elétrica','Lava-jato','Loja de autopeças','Borracharia','Escola','Escola de idiomas','Agência de marketing','Gráfica','Fotógrafo','Serviço de buffet','Salão de festas','Hotel','Pousada','Distribuidora de gás','Loja de pisos e revestimentos','Vidraçaria','Serralheria','Marcenaria','Floricultura'];
-
-/* ============ ESTADO ============ */
-let A = {};          // respostas
-let cur = -1;        // passo atual
-let editing = false; // voltando da revisão
-function save() { try { localStorage.setItem(CONFIG.STORAGE, JSON.stringify({ A, cur, t: Date.now() })); } catch (e) {} }
-function load() { try { return JSON.parse(localStorage.getItem(CONFIG.STORAGE) || 'null'); } catch (e) { return null; } }
-function wipe() { try { localStorage.removeItem(CONFIG.STORAGE); } catch (e) {} }
-
-/* ============ CHAT ============ */
-let lastSide = null;
-function scroll() { requestAnimationFrame(() => { $chat.scrollTop = $chat.scrollHeight; }); }
-function addRow(side, html, cls = '') {
-  const row = document.createElement('div');
-  row.className = `row ${side}` + (lastSide !== side ? ' first' : '');
-  row.innerHTML = (side === 'bot' ? '<div class="mini" aria-hidden="true">EA</div>' : '') + `<div class="bubble ${cls}">${html}</div>`;
-  $chat.appendChild(row); lastSide = side; scroll(); return row;
-}
-async function say(line) {
-  if (line == null || line === '') return;
-  const isHint = typeof line === 'object' && line.hint;
-  const isCard = typeof line === 'object' && line.card;
-  const text = isHint ? line.hint : isCard ? '' : line;
-  if (!isHint && !reduce) {
-    const t = addRow('bot', '<span class="typing"><span></span><span></span><span></span></span>');
-    t.querySelector('.bubble').style.padding = '0';
-    await sleep(Math.min(250 + String(text).length * 11, 1100));
-    t.remove(); const last = $chat.lastElementChild; lastSide = last && last.classList.contains('bot') ? 'bot' : null;
-  }
-  if (isCard) addRow('bot', line.card, 'card');
-  else addRow('bot', rich(text), isHint ? 'hint' : '');
-}
-function me(text) { addRow('me', rich(text)); }
-function block(el) { $chat.appendChild(el); lastSide = 'block'; scroll(); return el; }
-
-/* ============ PASSOS ============ */
-const STAGES = ['Você', 'Empresa', 'Endereço', 'Atendimento', 'Estrutura', 'Contrato', 'Revisão'];
-const SIM_NAO = ['Sim', 'Não'];
 const recebeNoLocal = a => a.modo !== 'Não recebe clientes no local (só online ou tele-entrega)';
 
-const STEPS = [
+const STAGES = ['Você', 'Empresa', 'Endereço', 'Atendimento', 'Estrutura', 'Fotos e contrato', 'Revisão'];
+
+const passos = [
   { id: 'intro', stage: 0, nokey: true,
-    say: () => ['Olá, seja bem-vindo! 👋', 'Este formulário reúne tudo o que eu preciso para criar e deixar completa a ficha da sua empresa no **Google Meu Negócio**. Leva uns 8 minutos.', { hint: 'Se digitar algo errado, no final você confere tudo e corrige antes de enviar.' }],
+    say: () => ['Olá, seja bem-vindo! 👋', 'Este formulário reúne tudo o que eu preciso para criar e deixar completa a ficha da sua empresa no **Google Meu Negócio**. Leva uns 8 minutos.', { hint: 'Se digitar algo errado, no final você confere tudo e corrige antes de enviar. Se fechar a página, continua de onde parou.' }],
     input: { type: 'choice', options: ['Começar agora! 🚀'] } },
 
-  { id: 'nome', stage: 0, label: 'Nome completo',
-    say: () => ['Qual é o seu **nome completo**?'],
-    input: { type: 'text', placeholder: 'Digite seu nome completo', autocomplete: 'name',
-      validate: v => v.trim().split(/\s+/).length >= 2 || 'Digite nome e sobrenome.' } },
-
-  { id: 'cpf', stage: 0, label: 'CPF',
-    say: a => [`Prazer, ${firstName(a.nome)}! 😊 Qual é o número do seu **CPF**?`, { hint: 'Uso só para o contrato.' }],
-    input: { type: 'cpf' } },
-
-  { id: 'whats', stage: 0, label: 'WhatsApp pessoal',
-    say: () => ['Qual é o seu **WhatsApp pessoal**?', { hint: 'Com DDD. Exemplo: (54) 99999-9999' }],
-    input: { type: 'phone' } },
+  ...P.contato(0),
 
   { id: 'tem_gmail', stage: 0, label: 'Tem e-mail do Google',
     say: () => ['Você tem um **e-mail do Google** (Gmail)?', { hint: 'É o e-mail que termina em @gmail.com.' }],
@@ -261,55 +65,9 @@ const STEPS = [
 
   { id: 'm_empresa', stage: 1, msg: true, say: () => ['Agora vamos para as **informações da empresa**! 💼'] },
 
-  { id: 'tem_cnpj', stage: 1, label: 'Tem CNPJ',
-    say: () => ['A sua empresa possui **CNPJ**?'],
-    input: { type: 'choice', options: SIM_NAO },
-    reset: a => { (a._pre || []).forEach(k => delete a[k]); delete a._pre; delete a._cnpj; delete a.cnpj_ok; delete a.end_cnpj_ok; } },
+  ...P.cnpj(1),
 
-  { id: 'cnpj', stage: 1, label: 'CNPJ', when: a => a.tem_cnpj === 'Sim',
-    say: () => ['Qual é o número do **CNPJ**?', { hint: 'Com ele eu já busco os dados na Receita para você digitar menos.' }],
-    input: { type: 'cnpj' },
-    reset: a => { (a._pre || []).forEach(k => delete a[k]); delete a._pre; delete a._cnpj; delete a.cnpj_ok; delete a.end_cnpj_ok; },
-    after: async (v, a) => {
-      const num = v.replace(/[^0-9A-Z]/gi, '');
-      let c = null;
-      const d = await getJSON('https://brasilapi.com.br/api/cnpj/v1/' + num);
-      if (d && d.razao_social) c = {
-        razao: d.razao_social, fantasia: d.nome_fantasia, abertura: d.data_inicio_atividade, situacao: d.descricao_situacao_cadastral,
-        atividade: d.cnae_fiscal_descricao, rua: [d.descricao_tipo_de_logradouro, d.logradouro].filter(Boolean).join(' '),
-        numero: d.numero, complemento: d.complemento, bairro: d.bairro, cidade: d.municipio, uf: d.uf, cep: d.cep };
-      if (!c) { // reserva: CNPJ.ws (pública, até 3 consultas por minuto)
-        const w = await getJSON('https://publica.cnpj.ws/cnpj/' + num);
-        const e = w && w.estabelecimento;
-        if (w && w.razao_social && e) c = {
-          razao: w.razao_social, fantasia: e.nome_fantasia, abertura: e.data_inicio_atividade, situacao: e.situacao_cadastral,
-          atividade: (e.atividade_principal || {}).descricao, rua: [e.tipo_logradouro, e.logradouro].filter(Boolean).join(' '),
-          numero: e.numero, complemento: e.complemento, bairro: e.bairro, cidade: (e.cidade || {}).nome, uf: (e.estado || {}).sigla, cep: e.cep };
-      }
-      if (!c) { await say({ hint: 'Não consegui consultar a Receita agora. Sem problema, sigo com as perguntas.' }); return; }
-      a._cnpj = {
-        razao: titleCase(c.razao), fantasia: c.fantasia ? titleCase(c.fantasia) : '',
-        abertura: c.abertura || '', situacao: c.situacao || '', atividade: c.atividade || '',
-        rua: titleCase(c.rua || ''), numero: c.numero || '', complemento: titleCase(String(c.complemento || '').replace(/\s{2,}/g, ' ')),
-        bairro: titleCase(c.bairro || ''), cidade: titleCase(c.cidade || ''), uf: c.uf || '', cep: c.cep ? mask.cep(c.cep) : ''
-      };
-    } },
-
-  { id: 'cnpj_ok', stage: 1, label: 'Dados da Receita conferem', when: a => a.tem_cnpj === 'Sim' && a._cnpj,
-    say: a => { const c = a._cnpj; return ['Encontrei sua empresa na Receita Federal: 🔎', { card:
-      `<dl><dt>Empresa</dt><dd>${esc(c.fantasia || c.razao)}</dd>` + (c.fantasia ? `<dt>Razão social</dt><dd>${esc(c.razao)}</dd>` : '') +
-      (c.abertura ? `<dt>Abertura</dt><dd>${fmtDate(c.abertura)}</dd>` : '') + (c.situacao ? `<dt>Situação</dt><dd>${esc(titleCase(c.situacao))}</dd>` : '') + '</dl>' },
-      'É essa a sua empresa?']; },
-    input: { type: 'choice', options: ['Sim, é essa', 'Não é essa'] },
-    after: async (v, a) => {
-      if (v === 'Sim, é essa') { if (a._cnpj.abertura && !a.data_abertura) { a.data_abertura = a._cnpj.abertura; a._pre = (a._pre || []).concat('data_abertura'); } }
-      else { delete a._cnpj; await say('Tudo bem! Vou seguir perguntando, e você confere o número do CNPJ na revisão.'); }
-    } },
-
-  { id: 'nome_empresa', stage: 1, label: 'Nome da empresa',
-    say: () => ['Qual é o **nome da empresa** como os clientes conhecem?', { hint: 'É o nome da fachada. O Google não deixa colocar cidade nem palavras extras no nome, senão suspende a ficha.' }],
-    input: { type: 'text', placeholder: 'Nome da empresa',
-      chips: a => a._cnpj ? [a._cnpj.fantasia, a._cnpj.razao].filter(Boolean).filter((x, i, l) => l.indexOf(x) === i).map(x => ({ label: x, value: x })) : [] } },
+  P.nomeEmpresa(1, 'É o nome da fachada. O Google não deixa colocar cidade nem palavras extras no nome, senão suspende a ficha.'),
 
   { id: 'categoria', stage: 1, label: 'Categoria principal',
     say: a => ['Qual é a **categoria principal** do seu negócio?', { hint: a._cnpj && a._cnpj.atividade ? `Na Receita, a atividade está como "${titleCase(a._cnpj.atividade)}". Escreva com as suas palavras o que vocês são.` : 'Exemplo: restaurante, loja de roupas, academia, clínica médica.' }],
@@ -321,7 +79,7 @@ const STEPS = [
 
   { id: 'whats_emp', stage: 1, label: 'WhatsApp da empresa',
     say: () => ['Qual é o **WhatsApp da empresa**? É o número que vai aparecer na ficha.'],
-    input: { type: 'phone', chips: a => a.whats ? [{ label: 'É o mesmo do meu pessoal', value: a.whats }] : [] } },
+    input: { type: 'phone', chips: a => a.whats ? [{ label: 'É o mesmo do meu', value: a.whats }] : [] } },
 
   { id: 'instagram', stage: 1, label: 'Instagram',
     say: () => ['Qual é o **Instagram da empresa**?', { hint: 'Exemplo: @eduardoandreolla_' }],
@@ -436,253 +194,11 @@ const STEPS = [
   { id: 'wifi', stage: 4, label: 'Wi-Fi para clientes', when: recebeNoLocal,
     say: () => ['Tem **Wi-Fi** para os clientes?'], input: { type: 'choice', options: ['Sim, gratuito', 'Sim, pago', 'Não tem'] } },
 
-  { id: 'm_contrato', stage: 5, msg: true, say: () => ['Por último, o **pagamento do nosso contrato** 📝'] },
-
-  { id: 'pag_contrato', stage: 5, label: 'Pagamento do contrato',
-    say: () => ['Como você prefere **pagar**?'], input: { type: 'choice', options: ['À vista', 'Parcelado'] } },
-
-  { id: 'parcelas', stage: 5, label: 'Parcelas', when: a => a.pag_contrato === 'Parcelado',
-    say: () => ['Em **quantas parcelas**?'], input: { type: 'choice', options: ['2x', '3x', '4x', '5x', '6x'] } },
-
-  { id: 'vencimento', stage: 5, label: 'Vencimento',
-    say: a => [a.pag_contrato === 'Parcelado' ? 'Qual é a **data da 1ª parcela**?' : 'Qual é a **data do pagamento**?'],
-    input: { type: 'date', min: today }, show: fmtDate },
-
-  { id: 'revisao', stage: 6, review: true }
+  ...P.arquivos(5, { fotosTexto: 'Agora as **fotos** que vão para a ficha: fachada (de dia, de frente), ambiente por dentro, equipe trabalhando, produtos ou serviços. 📸' }),
+  ...P.contrato(5),
+  P.revisao(6)
 ];
-STEPS.forEach(s => { s.key = (s.msg || s.nokey || s.review) ? null : s.id; });
 
-/* ============ MOTOR ============ */
-function setStage(n) {
-  document.querySelectorAll('.bars i').forEach((b, i) => b.classList.toggle('on', i < Math.min(n + 1, 6)));
-  document.getElementById('stage').textContent = n >= 6 ? 'Revisão' : `Etapa ${n + 1} de 6 · ${STAGES[n]}`;
-}
-const visible = s => !s.when || s.when(A);
-function showVal(s, v) {
-  if (v == null) return '';
-  if (s.show) return s.show(v);
-  if (s.input && s.input.type === 'hours') return v.texto;
-  if (Array.isArray(v)) return v.join(', ');
-  return String(v);
-}
-async function go(from) {
-  for (let i = from + 1; i < STEPS.length; i++) {
-    const s = STEPS[i];
-    if (!visible(s)) continue;
-    if (s.key && A[s.key] !== undefined) continue;
-    if (editing && (s.msg || s.nokey)) continue;
-    cur = i; save(); return run(s);
-  }
-}
-async function run(s) {
-  setStage(s.stage);
-  $comp.innerHTML = '';
-  if (s.review) { editing = false; return review(); }
-  for (const l of s.say(A)) await say(l);
-  if (s.msg) return go(STEPS.indexOf(s));
-  renderInput(s);
-}
-async function answer(s, value, shown) {
-  $comp.innerHTML = '';
-  me(shown != null ? shown : showVal(s, value));
-  if (s.key) {
-    const old = A[s.key];
-    if (old !== undefined && JSON.stringify(old) !== JSON.stringify(value) && s.reset) s.reset(A);
-    A[s.key] = value;
-  }
-  if (s.after) await s.after(value, A);
-  save();
-  go(STEPS.indexOf(s));
-}
-
-/* ============ ENTRADAS ============ */
-const SEND = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>';
-function renderInput(s) {
-  const inp = s.input, t = inp.type;
-  if (t === 'choice') return renderChoice(s);
-  if (t === 'multi') return renderMulti(s);
-  if (t === 'hours') return renderHours(s);
-
-  const chips = (inp.chips ? inp.chips(A) : []).concat(inp.optional ? [{ label: inp.optional, value: inp.optional }] : []);
-  let html = '';
-  if (chips.length) html += '<div class="chips">' + chips.map((c, i) => `<button type="button" class="chip" data-i="${i}">${esc(c.label)}</button>`).join('') + '</div>';
-  html += '<form class="compose" novalidate>';
-  const ph = esc(inp.placeholder || ({ cpf: '000.000.000-00', cnpj: '00.000.000/0000-00', phone: '(54) 99999-9999', email: 'seuemail@gmail.com', cep: '00000-000' }[t] || 'Digite sua resposta...'));
-  if (t === 'textarea') html += `<textarea rows="2" placeholder="${ph}" aria-label="Sua resposta"></textarea>`;
-  else if (t === 'select') html += '<select aria-label="Escolha">' + inp.options.map(o => `<option value="${o.value}"${o.value === (A[s.key] || inp.def) ? ' selected' : ''}>${esc(o.label)}</option>`).join('') + '</select>';
-  else {
-    const typ = t === 'email' ? 'email' : t === 'date' ? 'date' : t === 'phone' ? 'tel' : 'text';
-    const im = { cpf: 'numeric', phone: 'tel', cep: 'numeric', email: 'email', site: 'url' }[t] || inp.inputmode || 'text';
-    const ac = { phone: 'tel', email: 'email', cep: 'postal-code' }[t] || inp.autocomplete || 'off';
-    const lim = t === 'date' ? ` ${inp.min ? `min="${inp.min()}"` : ''} ${inp.max ? `max="${inp.max()}"` : ''}` : '';
-    html += `<input type="${typ}" inputmode="${im}" autocomplete="${ac}" placeholder="${ph}" aria-label="Sua resposta"${inp.list ? ' list="dl"' : ''}${lim}>`;
-    if (inp.list) html += '<datalist id="dl">' + inp.list.map(x => `<option value="${esc(x)}">`).join('') + '</datalist>';
-  }
-  html += `<button class="send" aria-label="Enviar">${SEND}</button></form><div class="err" role="alert"></div>`;
-  if (inp.counter) html += '<div class="count"></div>';
-  $comp.innerHTML = html;
-
-  const f = $comp.querySelector('input,textarea,select'), err = $comp.querySelector('.err'), cnt = $comp.querySelector('.count');
-  if (A[s.key] !== undefined && t !== 'select') f.value = Array.isArray(A[s.key]) ? A[s.key].join('\n') : A[s.key];
-  if (mask[t]) f.addEventListener('input', () => { f.value = mask[t](f.value); });
-  if (t === 'textarea') {
-    const grow = () => { f.style.height = 'auto'; f.style.height = Math.min(f.scrollHeight, 180) + 'px'; if (cnt) cnt.textContent = f.value.trim().length + ' caracteres'; };
-    f.addEventListener('input', grow); grow();
-  }
-  f.addEventListener('input', () => { err.textContent = ''; });
-  $comp.querySelectorAll('.chip').forEach(b => b.onclick = () => answer(s, chips[+b.dataset.i].value));
-  $comp.querySelector('form').onsubmit = e => {
-    e.preventDefault();
-    const r = check(t, f.value, inp);
-    if (r.error) { err.textContent = r.error; f.focus(); return; }
-    answer(s, r.value);
-  };
-  setTimeout(() => { if (matchMedia('(pointer:fine)').matches || A[s.key] !== undefined) f.focus(); }, 50);
-}
-function check(t, raw, inp) {
-  const v = String(raw).trim();
-  if (!v) return { error: inp.optional ? `Digite ou toque em "${inp.optional}".` : 'Digite sua resposta.' };
-  switch (t) {
-    case 'cpf': return cpfValido(v) ? { value: mask.cpf(v) } : { error: 'Esse CPF não parece certo. Confira os números.' };
-    case 'cnpj': return cnpjValido(v) ? { value: mask.cnpj(v) } : { error: 'Esse CNPJ não parece certo. Confira os números.' };
-    case 'phone': { const d = digits(v).replace(/^55(?=\d{10,11}$)/, '');
-      return (d.length === 10 || d.length === 11) && +d.slice(0, 2) >= 11 ? { value: mask.phone(d) } : { error: 'Digite o número com DDD. Exemplo: (54) 99999-9999' }; }
-    case 'email': return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? { value: v.toLowerCase() } : { error: 'Esse e-mail não parece certo.' };
-    case 'cep': return digits(v).length === 8 ? { value: mask.cep(v) } : { error: 'O CEP tem 8 números. Se não souber, toque em "Não sei o CEP".' };
-    case 'date': return /^\d{4}-\d{2}-\d{2}$/.test(v) ? { value: v } : { error: 'Escolha uma data.' };
-    case 'instagram': { const m = v.match(/instagram\.com\/([A-Za-z0-9._]+)/i); const u = (m ? m[1] : v).replace(/^@+/, '').replace(/\s/g, '');
-      return /^[A-Za-z0-9._]{1,30}$/.test(u) ? { value: '@' + u } : { error: 'Digite só o usuário, por exemplo @suaempresa.' }; }
-    case 'site': { if (/\s/.test(v) || !/\./.test(v)) return { error: 'Digite o endereço do site, por exemplo www.suaempresa.com.br' };
-      return { value: /^https?:\/\//i.test(v) ? v : 'https://' + v.replace(/^\/+/, '') }; }
-    case 'textarea': if (inp.min && v.length < inp.min) return { error: 'Escreva um pouco mais, por favor.' }; return { value: v };
-    case 'select': return { value: v };
-    default: if (inp.validate) { const r = inp.validate(v); if (r !== true) return { error: r }; } return { value: v };
-  }
-}
-function renderChoice(s) {
-  const box = document.createElement('div'); box.className = 'choices';
-  s.input.options.forEach(o => {
-    const b = document.createElement('button'); b.type = 'button'; b.textContent = o;
-    b.onclick = () => { box.querySelectorAll('button').forEach(x => x.disabled = true); box.remove(); answer(s, o); };
-    box.appendChild(b);
-  });
-  block(box);
-}
-function renderMulti(s) {
-  const inp = s.input, sel = new Set(Array.isArray(A[s.key]) ? A[s.key] : []);
-  const box = document.createElement('div'); box.className = 'choices multi';
-  const opts = inp.options.concat(inp.none ? [inp.none] : []);
-  const btns = opts.map(o => {
-    const b = document.createElement('button'); b.type = 'button'; b.textContent = o; b.setAttribute('aria-pressed', sel.has(o));
-    if (sel.has(o)) b.classList.add('sel');
-    b.onclick = () => {
-      if (sel.has(o)) sel.delete(o); else { sel.add(o); if (o === inp.none) [...sel].forEach(x => x !== o && sel.delete(x)); else sel.delete(inp.none); }
-      btns.forEach(x => { x.classList.toggle('sel', sel.has(x.textContent)); x.setAttribute('aria-pressed', sel.has(x.textContent)); });
-      go.disabled = !sel.size;
-    };
-    box.appendChild(b); return b;
-  });
-  const go = document.createElement('button'); go.type = 'button'; go.className = 'go'; go.textContent = 'Enviar ✓'; go.disabled = !sel.size;
-  go.onclick = () => { box.remove(); answer(s, opts.filter(o => sel.has(o))); };
-  box.appendChild(go);
-  block(box);
-}
-
-/* ---- horários ---- */
-const DIAS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
-const PRESETS = {
-  'Seg a sex, comercial': () => DIAS.map((d, i) => ({ open: i < 5, p: [['08:00', '12:00'], ['13:30', '18:00']] })),
-  'Seg a sáb, comercial': () => DIAS.map((d, i) => ({ open: i < 6, p: i === 5 ? [['08:00', '12:00']] : [['08:00', '12:00'], ['13:30', '18:00']] })),
-  'Aberto 24 horas': () => DIAS.map(() => ({ open: true, p: [['00:00', '24:00']] }))
-};
-function hoursText(H) {
-  const h = x => x.replace(/^0(\d)/, '$1').replace(':00', 'h').replace(':', 'h');
-  const fmt = d => !d.open ? 'fechado' : (d.p[0][0] === '00:00' && d.p[0][1] === '24:00') ? '24 horas' : d.p.map(p => `das ${h(p[0])} às ${h(p[1])}`).join(' e ');
-  const out = []; let i = 0;
-  while (i < 7) { let j = i; while (j + 1 < 7 && fmt(H[j + 1]) === fmt(H[i])) j++;
-    const nome = i === j ? DIAS[i] : j === i + 1 ? `${DIAS[i]} e ${DIAS[j].toLowerCase()}` : `${DIAS[i]} a ${DIAS[j].toLowerCase()}`;
-    out.push(`${nome}: ${fmt(H[i])}`); i = j + 1; }
-  return out.join('\n');
-}
-function renderHours(s) {
-  let H = A.horarios && A.horarios.dias ? JSON.parse(JSON.stringify(A.horarios.dias)) : PRESETS['Seg a sex, comercial']();
-  const card = document.createElement('div'); card.className = 'hours';
-  const draw = () => {
-    card.innerHTML = '<div class="presets">' + Object.keys(PRESETS).map(k => `<button type="button" class="chip" data-p="${k}">${k}</button>`).join('') + '</div>' +
-      H.map((d, i) => `<div class="day"><label class="tog"><input type="checkbox" data-d="${i}" ${d.open ? 'checked' : ''}>${DIAS[i].slice(0, 3)}</label>` +
-        (d.open ? '<div class="periods">' + d.p.map((p, j) => `<div class="per"><input type="time" data-d="${i}" data-p="${j}" data-k="0" value="${p[0] === '24:00' ? '23:59' : p[0]}" aria-label="${DIAS[i]} abre"> às <input type="time" data-d="${i}" data-p="${j}" data-k="1" value="${p[1] === '24:00' ? '23:59' : p[1]}" aria-label="${DIAS[i]} fecha">${j ? `<button type="button" class="x" data-rm="${i}">remover</button>` : ''}</div>`).join('') +
-          (d.p.length < 2 ? `<button type="button" class="addp" data-add="${i}">+ intervalo (ex.: almoço)</button>` : '') + '</div>'
-          : '<div class="closed">Fechado</div>') + '</div>').join('') +
-      `<div class="foot"><button type="button" class="btn ghost" data-copy>Copiar segunda para os dias abertos</button><button type="button" class="btn" data-ok>Confirmar horários</button></div><div class="err" role="alert"></div>` +
-      '<button type="button" class="btn ghost" data-var style="padding-left:0">Meus horários variam, prefiro escrever</button>';
-  };
-  draw();
-  card.addEventListener('change', e => {
-    const t = e.target, d = +t.dataset.d;
-    if (t.type === 'checkbox') { H[d].open = t.checked; if (t.checked && !H[d].p.length) H[d].p = [['08:00', '18:00']]; draw(); }
-    if (t.type === 'time') { H[d].p[+t.dataset.p][+t.dataset.k] = t.value === '23:59' ? '24:00' : t.value; }
-  });
-  card.addEventListener('click', e => {
-    const t = e.target.closest('button'); if (!t) return;
-    if (t.dataset.p !== undefined && PRESETS[t.dataset.p]) { H = PRESETS[t.dataset.p](); draw(); }
-    else if (t.dataset.add !== undefined) { const d = H[+t.dataset.add]; d.p.push([d.p[0][1] < '13:30' ? '13:30' : d.p[0][1], '18:00']); if (d.p[0][1] > '12:00' && d.p[0][1] < '24:00') d.p[0][1] = '12:00'; draw(); }
-    else if (t.dataset.rm !== undefined) { H[+t.dataset.rm].p.splice(1); draw(); }
-    else if (t.hasAttribute('data-copy')) { H.forEach((d, i) => { if (i && d.open) d.p = JSON.parse(JSON.stringify(H[0].p)); }); if (!H[0].open) return; draw(); }
-    else if (t.hasAttribute('data-var')) { card.remove(); renderInput(Object.assign({}, s, { input: { type: 'textarea', placeholder: 'Ex.: Segunda a sexta, das 8h às 12h e das 13h30 às 18h; sábado das 9h às 11h' }, after: null, _var: true })); patchVar(s); }
-    else if (t.hasAttribute('data-ok')) {
-      const err = card.querySelector('.err');
-      if (!H.some(d => d.open)) { err.textContent = 'Marque pelo menos um dia aberto.'; return; }
-      for (let i = 0; i < 7; i++) { const d = H[i]; if (!d.open) continue;
-        for (const p of d.p) if (!p[0] || !p[1] || p[0] >= p[1]) { err.textContent = `Confira o horário de ${DIAS[i].toLowerCase()}: o fechamento tem que ser depois da abertura.`; return; }
-        if (d.p[1] && d.p[1][0] < d.p[0][1]) { err.textContent = `Em ${DIAS[i].toLowerCase()}, o segundo horário começa antes do primeiro terminar.`; return; } }
-      card.remove(); const texto = hoursText(H); answer(s, { texto, dias: H }, texto);
-    }
-  });
-  block(card);
-}
-function patchVar(s) { // horário escrito à mão
-  const form = $comp.querySelector('form'), f = $comp.querySelector('textarea'), err = $comp.querySelector('.err');
-  form.onsubmit = e => { e.preventDefault(); const v = f.value.trim(); if (v.length < 5) { err.textContent = 'Escreva os dias e horários.'; return; } answer(s, { texto: v, dias: null }, v); };
-}
-
-/* ============ REVISÃO ============ */
-async function review() {
-  await say(`Pronto, ${firstName(A.nome)}! 🙌 Confira suas respostas. Se algo estiver errado, toque em **corrigir**.`);
-  const box = document.createElement('div'); box.className = 'review';
-  let html = '', st = -1;
-  STEPS.forEach((s, i) => {
-    if (!s.key || s.nolabel || !visible(s) || A[s.key] === undefined) return;
-    if (s.stage !== st) { st = s.stage; html += `<h3>${STAGES[st]}</h3>`; }
-    html += `<div class="ri"><span>${esc(s.label)}</span><p>${esc(showVal(s, A[s.key]))}</p><button type="button" data-i="${i}">corrigir</button></div>`;
-  });
-  box.innerHTML = html;
-  box.onclick = async e => {
-    const b = e.target.closest('button[data-i]'); if (!b) return;
-    const s = STEPS[+b.dataset.i];
-    box.remove(); $comp.innerHTML = ''; fin.remove();
-    editing = true; me(`Corrigir: ${s.label}`);
-    cur = +b.dataset.i; save(); run(s);
-  };
-  block(box);
-  const fin = document.createElement('div'); fin.className = 'final';
-  fin.innerHTML = '<button type="button" class="btn">✅ Está tudo certo, enviar</button><p class="small">Seus dados são usados só para criar e cuidar da ficha da sua empresa e para o contrato.</p>';
-  fin.querySelector('button').onclick = () => { fin.remove(); box.querySelectorAll('button').forEach(x => x.disabled = true); submit(); };
-  block(fin);
-}
-
-/* ============ ENVIO ============ */
-function linhas() {
-  return STEPS.filter(s => s.key && !s.nolabel && visible(s) && A[s.key] !== undefined).map(s => [s.label, showVal(s, A[s.key])]);
-}
-function textoWhats() {
-  let t = `*Ficha do Google — ${A.nome_empresa || ''}*\n`, st = -1;
-  STEPS.forEach(s => {
-    if (!s.key || s.nolabel || !visible(s) || A[s.key] === undefined) return;
-    if (s.stage !== st) { st = s.stage; t += `\n*${STAGES[st].toUpperCase()}*\n`; }
-    t += `${s.label}: ${showVal(s, A[s.key])}\n`;
-  });
-  return t;
-}
 function fichaMarkdown() {
   const cell = v => String(v == null || v === '' ? '-' : v).replace(/\|/g, '/').replace(/\n/g, '<br>');
   const v = k => { const s = STEPS.find(x => x.key === k); return s && visible(s) && A[k] !== undefined ? showVal(s, A[k]) : '-'; };
@@ -703,59 +219,20 @@ function fichaMarkdown() {
     ['Quais serviços são oferecidos pela empresa?', v('servicos')], ['Uma breve descrição sobre a empresa', v('descricao')], ['Empresa de mulheres', v('mulheres')]]) +
   `\n#### Informações sobre a estrutura da empresa\n\n` + tab([
     ['Banheiro para clientes', v('banheiro')], ['Acessibilidade', v('acessivel')], ['Estacionamento', v('estacionamento')], ['Wi-Fi', v('wifi')]]) +
+  `\n#### Fotos e logotipo\n\n` + tab([['Logotipo', v('logo')], ['Fotos', v('fotos')]]) +
   `\n#### Contrato\n\n` + tab([['Condição de pagamento', v('pag_contrato') + (A.parcelas && A.pag_contrato === 'Parcelado' ? ' em ' + A.parcelas : '')], ['Vencimento', v('vencimento')]]);
 }
-async function submit() {
-  me('Está tudo certo, enviar ✅');
-  const payload = { enviadoEm: new Date().toISOString(), empresa: A.nome_empresa, nome: A.nome, cidade: A.cidade, whatsapp: A.whats,
-    respostas: Object.fromEntries(Object.entries(A).filter(([k]) => !k.startsWith('_') || k === '_cnpj')), linhas: linhas(), markdown: fichaMarkdown() };
-  let ok = false;
-  if (CONFIG.ENDPOINT) {
-    await say({ hint: 'Enviando suas respostas...' });
-    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 20000);
-    try {
-      const r = await fetch(CONFIG.ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), signal: ctl.signal });
-      const j = await r.json(); ok = !!(j && j.ok);
-    } catch (e) { ok = false; } finally { clearTimeout(t); }
-  }
-  setStage(6);
-  document.getElementById('stage').textContent = 'Concluído';
-  const fin = document.createElement('div'); fin.className = 'final';
-  const wa = t => `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(t)}`;
-  if (ok) {
-    wipe();
-    await say(`Obrigado por preencher, ${firstName(A.nome)}! 🎉`);
-    await say('Recebi tudo. Com essas informações eu configuro e otimizo a ficha da sua empresa no **Google Meu Negócio**, e te chamo assim que estiver pronta.');
-    await say('Para a ficha ficar completa, me mande no WhatsApp a **logo** e **fotos**: fachada, ambiente por dentro, equipe e produtos ou serviços. 📸');
-    fin.innerHTML = `<a class="btn wa" target="_blank" rel="noopener" href="${wa(`Oi, Eduardo! Acabei de preencher o formulário da ficha do Google da ${A.nome_empresa}. Vou te mandar a logo e as fotos aqui.`)}">Mandar fotos no WhatsApp</a>`;
-  } else {
-    await say(`Obrigado, ${firstName(A.nome)}! 🎉 Falta só um toque:`);
-    await say('Toque no botão abaixo para me enviar as respostas pelo **WhatsApp**. A mensagem já vai pronta, é só enviar. 👇');
-    fin.innerHTML = `<a class="btn wa" target="_blank" rel="noopener" href="${wa(textoWhats())}">Enviar respostas no WhatsApp</a><p class="small">Depois, me mande também a logo e as fotos da empresa por lá. 📸</p>`;
-    fin.querySelector('a').addEventListener('click', () => setTimeout(wipe, 500));
-  }
-  block(fin);
-}
 
-/* ============ INÍCIO ============ */
-(async function start() {
-  const saved = load();
-  if (saved && saved.A && saved.cur > 0 && saved.A.nome) {
-    A = saved.A;
-    setStage(STEPS[saved.cur].stage);
-    await say(`Que bom te ver de novo, ${firstName(A.nome)}! 👋 Você já tinha começado a preencher.`);
-    const box = document.createElement('div'); box.className = 'choices';
-    ['Continuar de onde parei', 'Começar do zero'].forEach(o => {
-      const b = document.createElement('button'); b.type = 'button'; b.textContent = o;
-      b.onclick = () => { box.remove(); me(o);
-        if (o === 'Começar do zero') { A = {}; wipe(); $chat.innerHTML = ''; lastSide = null; return go(-1); }
-        cur = saved.cur; const s = STEPS[cur]; if (s.key && A[s.key] !== undefined && !s.review) go(cur); else run(s); };
-      box.appendChild(b);
-    });
-    block(box); return;
-  }
-  go(-1);
-})();
+iniciar({
+  tipo: 'gmn',
+  documento: 'Ficha GMN',
+  storage: 'ficha-gmn-v1',
+  stages: STAGES,
+  steps: passos,
+  markdown: fichaMarkdown,
+  privacidade: 'Seus dados são usados só para criar e cuidar da ficha da sua empresa e para o contrato.',
+  fim: () => ['Recebi tudo. Com essas informações eu configuro e otimizo a ficha da sua empresa no **Google Meu Negócio**, e te chamo assim que estiver pronta.']
+});
 </script>
 </body>
 </html>

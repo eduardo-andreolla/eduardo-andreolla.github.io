@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Social media | Eduardo Andreolla</title>
+<meta name="description" content="Responda algumas perguntas para eu conhecer a sua marca e planejar os seus conteúdos.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1a73e8">
+<link rel="icon" href="../links/img/favicon-64.png">
+<meta property="og:title" content="Vamos começar os seus conteúdos">
+<meta property="og:description" content="Responda algumas perguntas para eu conhecer a sua marca e planejar os seus conteúdos.">
+<meta property="og:image" content="https://eduardoandreolla.com.br/links/img/eduardo.jpg">
+<meta property="og:url" content="https://eduardoandreolla.com.br/onboarding-social-media/">
+<link rel="stylesheet" href="../formulario/motor.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="who">
+      <div class="id"><div class="avatar" aria-hidden="true"></div><div><b>Eduardo Andreolla</b><small>Começo do nosso trabalho de social media</small></div></div>
+      <a class="help" id="ajuda" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg><span>Dúvida?</span></a>
+    </div>
+    <div class="progress" aria-hidden="true">
+      <div class="bars"></div>
+      <span class="stage" id="stage">Início</span>
+    </div>
+  </header>
+  <main id="chat" aria-live="polite"></main>
+  <footer id="composer"></footer>
+</div>
+<script src="../formulario/motor.js"></script>
+<script>
+const STAGES = ['Você', 'Empresa', 'Público', 'Marca', 'Conteúdo', 'Arquivos e contrato', 'Revisão'];
+
+const passos = [
+  { id: 'intro', stage: 0, nokey: true,
+    say: () => ['Olá, seja bem-vindo! 👋', 'Este formulário é o começo do nosso trabalho de **social media**. Com ele eu conheço a sua empresa, o seu público e o jeito da sua marca, para os conteúdos saírem com a cara de vocês. Leva uns 12 minutos.', { hint: 'Responda do seu jeito, sem medo de errar. Se fechar a página, continua de onde parou, e no final você confere tudo antes de enviar.' }],
+    input: { type: 'choice', options: ['Começar agora! 🚀'] } },
+
+  ...P.contato(0, { email: true }),
+  ...P.cnpj(0),
+  P.nomeEmpresa(0),
+
+  { id: 'm_empresa', stage: 1, msg: true, say: () => ['Agora me conta sobre a **empresa**! 💼'] },
+
+  { id: 'segmento', stage: 1, label: 'O que a empresa faz',
+    say: () => ['Em poucas palavras, **o que a empresa faz**?', { hint: 'Ex.: clínica de estética, loja de presentes, escritório de contabilidade.' }],
+    input: { type: 'text', placeholder: 'O que vocês fazem' } },
+
+  { id: 'cidade', stage: 1, label: 'Cidade', say: () => ['Em que **cidade** fica a empresa?'],
+    input: { type: 'text', placeholder: 'Cidade/UF', chips: a => a._cnpj && a._cnpj.cidade ? [{ label: `${a._cnpj.cidade}/${a._cnpj.uf}`, value: `${a._cnpj.cidade}/${a._cnpj.uf}` }] : [] } },
+
+  { id: 'instagram', stage: 1, label: 'Instagram',
+    say: () => ['Qual é o **Instagram da empresa**?'],
+    input: { type: 'instagram', placeholder: '@usuario', chips: () => [{ label: 'Ainda não tem', value: 'Ainda não tem' }] } },
+
+  { id: 'outras_redes', stage: 1, label: 'Outras redes e canais',
+    say: () => ['Quais **outros canais** a empresa usa?', { hint: 'Pode marcar mais de uma.' }],
+    input: { type: 'multi', options: ['Facebook', 'TikTok', 'YouTube', 'LinkedIn', 'Site', 'Google Meu Negócio', 'WhatsApp Business'], none: 'Só o Instagram' } },
+
+  { id: 'historia', stage: 1, label: 'Como o negócio nasceu',
+    say: () => ['Me conta **como o negócio nasceu** e há quanto tempo vocês estão no mercado.', { hint: 'Histórias assim viram ótimos conteúdos.' }],
+    input: { type: 'textarea', placeholder: 'A história da empresa...', min: 20 } },
+
+  { id: 'equipe', stage: 1, label: 'Tamanho da equipe',
+    say: () => ['Qual é o **tamanho da equipe**?'], input: { type: 'choice', options: ['Só eu', '2 a 5 pessoas', '6 a 15 pessoas', 'Mais de 15 pessoas'] } },
+
+  { id: 'produtos', stage: 1, label: 'Principais produtos e serviços',
+    say: () => ['Quais são os **principais produtos ou serviços**?', { hint: 'Um por linha. Marque com * os que você mais quer divulgar.' }],
+    input: { type: 'textarea', placeholder: 'Um por linha', min: 3 } },
+
+  { id: 'metas', stage: 1, label: 'Objetivo com as redes',
+    say: () => ['O que você quer que as redes sociais **tragam** para a empresa?', { hint: 'Pode marcar mais de uma.' }],
+    input: { type: 'multi', options: ['Mais clientes e vendas', 'Mais seguidores', 'Autoridade no assunto', 'Fortalecer a marca', 'Fidelizar quem já é cliente', 'Atrair funcionários'] } },
+
+  { id: 'datas', stage: 1, label: 'Datas e épocas importantes',
+    say: () => ['Tem **datas ou épocas importantes** para a empresa? Aniversário, temporada forte, datas do setor...'],
+    input: { type: 'text', placeholder: 'Ex.: aniversário em março; Dia das Mães é forte', optional: 'Não tem' } },
+
+  { id: 'm_publico', stage: 2, msg: true, say: () => ['Agora o seu **público**. 🎯'] },
+
+  { id: 'cliente_ideal', stage: 2, label: 'Cliente ideal',
+    say: () => ['Me descreve o seu **cliente típico**: idade, se é homem ou mulher, profissão, onde mora, o que gosta.'],
+    input: { type: 'textarea', placeholder: 'Ex.: mulheres de 25 a 45 anos, mães, que trabalham fora...', min: 20 } },
+
+  { id: 'dores', stage: 2, label: 'O que o cliente procura',
+    say: () => ['Que **problema ou desejo** faz o cliente procurar você?'],
+    input: { type: 'textarea', placeholder: 'O que ele sente ou quer', min: 10 } },
+
+  { id: 'duvidas', stage: 2, label: 'Perguntas que mais chegam',
+    say: () => ['Quais **perguntas** os clientes mais fazem no WhatsApp ou no balcão?', { hint: 'Cada pergunta pode virar um conteúdo.' }],
+    input: { type: 'textarea', placeholder: 'As perguntas mais comuns' } },
+
+  { id: 'nao_cliente', stage: 2, label: 'Quem não é o público',
+    say: () => ['Tem algum público que você **não quer atrair**?'],
+    input: { type: 'text', placeholder: 'Ex.: quem procura o mais barato', optional: 'Não' } },
+
+  { id: 'concorrentes', stage: 2, label: 'Concorrentes',
+    say: () => ['Quem são os seus **principais concorrentes**?', { hint: 'Se souber o Instagram deles, melhor ainda.' }],
+    input: { type: 'textarea', placeholder: 'Nomes ou @', optional: 'Não sei' } },
+
+  { id: 'diferencial', stage: 2, label: 'Diferencial',
+    say: () => ['Por que o cliente deveria escolher **você**?'],
+    input: { type: 'textarea', placeholder: 'O que vocês têm que os outros não têm', min: 10 } },
+
+  { id: 'frase', stage: 2, label: 'A empresa em uma frase',
+    say: () => ['Se tivesse que explicar a empresa **em uma frase** para quem nunca ouviu falar, qual seria?'],
+    input: { type: 'text', placeholder: 'Uma frase' } },
+
+  { id: 'm_marca', stage: 3, msg: true, say: () => ['Agora a **marca**. 🎨'] },
+
+  { id: 'tom', stage: 3, label: 'Jeito de falar da marca',
+    say: () => ['Como a marca deve **falar** nas redes?', { hint: 'Pode marcar mais de uma.' }],
+    input: { type: 'multi', options: ['Acolhedora', 'Especialista e técnica', 'Leve e divertida', 'Sofisticada', 'Direta e objetiva', 'Simples, do dia a dia'] } },
+
+  { id: 'evitar', stage: 3, label: 'Palavras e assuntos a evitar',
+    say: () => ['Tem **palavras, assuntos ou estilos** que você não quer de jeito nenhum?'],
+    input: { type: 'text', placeholder: 'Ex.: nada de gírias; não falar de preço', optional: 'Não tem' } },
+
+  { id: 'identidade', stage: 3, label: 'Identidade visual',
+    say: () => ['A marca tem **identidade visual** definida?'],
+    input: { type: 'choice', options: ['Tenho logo, cores e fontes definidos', 'Tenho só o logotipo', 'Não tenho nada definido'] } },
+
+  { id: 'cores', stage: 3, label: 'Cores da marca', when: a => a.identidade && a.identidade !== 'Não tenho nada definido',
+    say: () => ['Quais são as **cores** da marca?', { hint: 'Se tiver o código das cores (ex.: #1A73E8), melhor.' }],
+    input: { type: 'text', placeholder: 'Ex.: verde-escuro e dourado', optional: 'Vejo no logotipo' } },
+
+  { id: 'referencias', stage: 3, label: 'Perfis de referência',
+    say: () => ['Tem algum **perfil** (de qualquer área) que você admira e pensa "quero algo assim"?'],
+    input: { type: 'textarea', placeholder: '@ ou links', optional: 'Não tenho' } },
+
+  { id: 'regras_setor', stage: 3, label: 'Regras do setor',
+    say: () => ['A sua área tem **regras de publicidade** de algum conselho?', { hint: 'Ex.: CFM (médicos), CRO (dentistas), CRN (nutricionistas), OAB (advogados).' }],
+    input: { type: 'choice', options: ['Sim', 'Não', 'Não sei'] } },
+
+  { id: 'regras_quais', stage: 3, label: 'Conselho e registro', when: a => a.regras_setor === 'Sim',
+    say: () => ['Qual é o **conselho e o número do registro** (CRM, RQE, CRO...)?', { hint: 'Vai nos conteúdos, como as regras pedem.' }],
+    input: { type: 'text', placeholder: 'Ex.: CRM-RS 12345, RQE 6789' } },
+
+  { id: 'm_conteudo', stage: 4, msg: true, say: () => ['Agora sobre os **conteúdos e as gravações**. 🎬'] },
+
+  { id: 'quem_aparece', stage: 4, label: 'Quem aparece nos conteúdos',
+    say: () => ['Quem pode **aparecer** nos vídeos e fotos?', { hint: 'Pode marcar mais de uma.' }],
+    input: { type: 'multi', options: ['Eu', 'A equipe', 'Clientes (com autorização)'], none: 'Ninguém, só produtos e ambiente' } },
+
+  { id: 'camera', stage: 4, label: 'À vontade na câmera', when: a => (a.quem_aparece || []).includes('Eu'),
+    say: () => ['Você fica **à vontade na frente da câmera**?'],
+    input: { type: 'choice', options: ['Sim, gosto de gravar', 'Mais ou menos, com roteiro eu consigo', 'Tenho vergonha, mas quero tentar'] } },
+
+  { id: 'temas', stage: 4, label: 'Assuntos para os conteúdos',
+    say: () => ['Me dá umas **5 ideias de assuntos** que você gostaria de ver virando post ou vídeo.', { hint: 'Pode ser dúvida de cliente, bastidor, antes e depois, dica...' }],
+    input: { type: 'textarea', placeholder: 'Uma ideia por linha', min: 10 } },
+
+  { id: 'gravacao', stage: 4, label: 'Melhores dias e local para gravar',
+    say: () => ['Quais são os **melhores dias e horários** para gravarmos, e **onde**?'],
+    input: { type: 'text', placeholder: 'Ex.: terças de manhã, na loja' } },
+
+  { id: 'material', stage: 4, label: 'Fotos, vídeos e depoimentos',
+    say: () => ['Vocês já têm **fotos, vídeos ou depoimentos** de clientes que a gente possa usar?'],
+    input: { type: 'choice', options: ['Sim, tenho', 'Posso conseguir', 'Não tenho'] } },
+
+  { id: 'aprovacao', stage: 4, label: 'Aprovação dos conteúdos',
+    say: () => ['Como você prefere **aprovar** os conteúdos?'],
+    input: { type: 'choice', options: ['Aprovo o calendário do mês de uma vez', 'Quero ver cada post antes', 'Pode postar, confio'] } },
+
+  { id: 'acesso_instagram', stage: 4, label: 'Acesso ao Instagram',
+    say: () => ['Para eu postar, preciso de **acesso ao Instagram**. Como fica melhor?', { hint: 'Por segurança, não mande senha por aqui. O jeito certo é me adicionar pelo Meta Business Suite, e eu te ajudo.' }],
+    input: { type: 'choice', options: ['Sei te adicionar pelo Meta Business Suite', 'Preciso de ajuda para fazer isso'] } },
+
+  ...P.arquivos(5, { fotosTexto: 'E **fotos e vídeos** que já tenham: produtos, ambiente, equipe, bastidores, clientes. 📸 Eles ajudam nos primeiros posts.' }),
+  ...P.contrato(5),
+  P.revisao(6)
+];
+
+iniciar({
+  tipo: 'social',
+  documento: 'Onboarding Social Media',
+  storage: 'onboarding-social-v1',
+  stages: STAGES,
+  steps: passos,
+  privacidade: 'Suas respostas ficam só comigo e servem só para criar os conteúdos da sua marca e para o contrato.',
+  fim: () => ['Recebi tudo. Agora eu estudo a sua marca e monto o **primeiro calendário de conteúdo**. Na sequência te chamo para combinarmos a primeira gravação e o acesso ao Instagram.']
+});
+</script>
+</body>
+</html>
